@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -34,33 +34,15 @@ import java.util.*;
  * because otherwise the data is not up to date and most of the methods will 
  * refuse to work.
  *
- * @version     1.01, 2003-02-13
  * @author      Esko Luontola
  */
 public class Comparison implements Serializable {
     
-    /**
-     * Constant used by <code>setMark</code> and <code>getMark</code> 
-     * to indicate an undefined mark.
-     */
+    public static final int NEXT_MARK = -1;
+    
     public static final int MARK_IS_UNDEFINED = 0;
-    
-    /**
-     * Constant used by <code>setMark</code> and <code>getMark</code> 
-     * to indicate a good mark.
-     */
     public static final int MARK_IS_GOOD = 1;
-    
-    /**
-     * Constant used by <code>setMark</code> and <code>getMark</code> 
-     * to indicate a bad mark.
-     */
     public static final int MARK_IS_BAD = 2;
-    
-    /**
-     * Constant used by <code>setMark</code> and <code>getMark</code> 
-     * to indicate an unsure mark.
-     */
     public static final int MARK_IS_UNSURE = 3;
     
     /**
@@ -72,6 +54,11 @@ public class Comparison implements Serializable {
      * The the file type name of CCorr Comparison Project.
      */
     public static final String FILE_TYPE = "CCorr Comparison Project";
+    
+    /**
+     * The name of the comparison.
+     */
+    private String name;
     
     /**
      * The <code>ChecksumFile</code> objects that are being compared.
@@ -109,6 +96,7 @@ public class Comparison implements Serializable {
      * Creates a new empty <code>Comparison</code>.
      */
     public Comparison() {
+        this.name = "";
         this.files = new ChecksumFile[0];
         this.items = new ComparisonItem[0][0];
         this.similarity = new double[0][0];
@@ -464,6 +452,34 @@ public class Comparison implements Serializable {
     }
     
     /**
+     * Returns the name of the comparison.
+     *
+     * @return the name of the comparison as a <code>String</code>
+     */
+    public String getName() {
+        return this.name;
+    }
+    
+    /**
+     * Sets the name of the comparison to the given <code>String</code>.
+     *
+     * @param name the new name of the comparison
+     */
+    public void setName(String name) {
+        this.name = name;
+        Log.print("Comparison.setName: Set name to \"" + name +"\".");
+    }
+
+    /**
+     * Returns the comments of this <code>Comparison</code>.
+     *
+     * @return  the comments
+     */
+    public String getComments() {
+        return this.comments;
+    }
+    
+    /**
      * Sets the comments for this <code>Comparison</code>.
      *
      * @param   comments    the comments, or null to empty them
@@ -477,12 +493,30 @@ public class Comparison implements Serializable {
     }
     
     /**
-     * Returns the comments of this <code>Comparison</code>.
+     * Returns the name of the algorithm that was used for making the checksums.
      *
-     * @return  the comments
+     * @return  the name of the algorithm
+     * @see     CRC#getSupportedAlgorithms()
      */
-    public String getComments() {
-        return this.comments;
+    public String getAlgorithm() {
+    	if (files.length == 0) {
+    		return null;
+    	} else {
+    		return files[0].getAlgorithm();
+    	}
+    }
+    
+    /**
+     * Returns the part length that was used for making the checksums.
+     *
+     * @return  the length in bytes
+     */
+    public int getPartLength() {
+    	if (files.length == 0) {
+    		return -1;
+    	} else {
+    		return files[0].getPartLength();
+    	}
     }
     
     /**
@@ -513,11 +547,15 @@ public class Comparison implements Serializable {
     public void addFile(ChecksumFile file) {
         if (file != null) {
             
-            // no duplicates wanted, must have same part size and algorithm
+            // must have same part size and algorithm
+            if ((getPartLength() > 0 && file.getPartLength() != getPartLength())
+            	|| (getAlgorithm() != null && !file.getAlgorithm().equals(getAlgorithm()))) {
+            	return;
+            }
+            
+            // no duplicates wanted
             for (int i = 0; i < this.files.length; i++) {
-                if (file == this.files[i]
-                        || file.getPartLength() != this.files[i].getPartLength()
-                        || !file.getAlgorithm().equals(this.files[i].getAlgorithm())) {
+                if (file == this.files[i]){
                     return;
                 }
             }
@@ -577,6 +615,8 @@ public class Comparison implements Serializable {
             }
             this.files = newArray;
             this.needsUpdating = true;      // somebody should run doCompare()
+            
+            Log.print("Comparison.removeFile: File #" + (removeFromIndex + 1) + " removed.");
         }
     }
     
@@ -765,7 +805,6 @@ item:   for (int item = 0; item < this.items.length; item++) {
      * through a list of numbers and returns each of them as many times as 
      * defined in the constructor before switching to the next number.
      *
-     * @version     0.01, 2003-02-06
      * @author      Esko Luontola     
      */
     private class RepeatCounter {
@@ -927,5 +966,132 @@ item:   for (int item = 0; item < this.items.length; item++) {
         }
         
         return result.toString();
+    }
+    
+    /**
+     * Finds and marks the parts in a row according to the number of occurence.
+     *
+     * @param   start the index of the starting row
+     * @param   end   the index of the ending row
+     * @return  true if successful, false if invalid range was given
+     */
+    public boolean markGoodParts(int start, int end) {
+        /*
+         * good, unsure and undefined count the number of parts (increased once per row)
+         */
+        int good = 0;
+        int unsure = 0;
+        int undefined = 0;
+        
+        /*
+         * Check for valid range. Abort if invalid range is given.
+         */
+        if (start < 0 || end >= this.items.length || start > end) {
+            Log.print("Comparison.markGoodParts: Invalid range, aborting.");
+            return false;
+        }
+        
+        /*
+         * ht           a hashtable to store the number of occurrences for each checksum
+         * max          the maximum number of occurrences
+         * maxIndex     the index of the checksum with the maximum occurrence
+         * isUnsure     decides whether MARK_IS_GOOD or MARK_IS_UNSURE should be set
+         */
+        for (int row = start; row <= end; row++) {
+            Hashtable ht = new Hashtable();
+            int max = 1;
+            int maxIndex = -1;
+            boolean isUnsure = false;
+
+            /*
+             * Increase the counter for existing checksums or
+             * create a new entry in the hashtable.
+             */
+            for (int col = 0; col < this.items[row].length; col++) {
+                if (this.isGoodIndex(row, col)) {
+                	// Skip column if past the end of file
+                	if (this.items[row][col].getChecksum().length() == 0) {
+                		continue;
+                	}
+                	
+                	// Do not change rows that already have markers set
+                	if (this.items[row][col].getMark() != MARK_IS_UNDEFINED) {
+                		maxIndex = -1;
+                		break;
+                	}
+                	
+                    String crc = this.items[row][col].getChecksum();
+                    
+                    if (ht.containsKey(crc)) {
+                        Integer counter = (Integer) ht.get(crc);
+                        ht.remove(crc);
+                        ht.put(crc, new Integer(counter.intValue() + 1));
+                        
+                        /*
+                         * Remember index of checksum with maximum count
+                         */
+                        if (counter.intValue() + 1 > max) {
+                            max = counter.intValue() + 1;
+                            maxIndex = col;
+                            isUnsure = false;
+                        } else {
+                            if (counter.intValue() + 1 == max) {
+                                isUnsure = true;
+                            }
+                        }
+                    } else {
+                        ht.put(crc, new Integer(1));
+                    }
+                }
+            }
+            
+            /*
+             * Now mark all checksums with the maximum count in the row.
+             */
+            if (maxIndex >= 0) {
+                if (isUnsure) {
+                    setMark(row, maxIndex, MARK_IS_UNSURE);
+                    unsure++;
+                } else {
+                    setMark(row, maxIndex, MARK_IS_GOOD);
+                    good++;
+                }
+                mirrorMark(row, maxIndex);
+            } else {
+                undefined++;
+            }
+        }
+
+        Log.print("Comparison.markGoodParts: " + good + " good, "
+                  + unsure + " unsure and " + undefined + " row(s) unchanged.");
+        return true;
+    }
+
+    /**
+     * Set MARK_IS_UNDEFINED for all parts in the specified rows.
+     *
+     * @param start    the index of the starting row
+     * @param end      the index of the ending row
+     * @return true if successful, false if invalid range was given.
+     */
+    public boolean markRowUndefined(int start, int end) {
+        /*
+         * Check for valid range. Abort if invalid range is given.
+         */
+        if (start < 0 || end >= this.items.length || start > end) {
+            Log.print("Comparison.markRowUndefined: Invalid range, aborting.");
+            return false;
+        }
+
+        for (int row = start; row <= end; row++) {
+            for (int col = 0; col < this.items[row].length; col++) {
+                if (this.isGoodIndex(row, col)) {
+                    setMark(row, col, MARK_IS_UNDEFINED);
+                }
+            }
+        }
+        
+        Log.print("Comparison.markRowUndefined: MARK_IS_UNDEFINED set.");
+        return true;
     }
 }

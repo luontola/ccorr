@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -27,14 +27,12 @@ import java.io.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
-import util.SwingWorker;
 
 /**
  * The user interface for a <code>Comparison</code>. It consists primarily of a
  * <code>JTable</code>, which shows the data a <code>Comparison</code> holds
  * and provides means for changing the markers.
  *
- * @version     1.01, 2003-02-13
  * @author      Esko Luontola
  */
 public class ComparisonPanel extends TabPanel {
@@ -55,7 +53,7 @@ public class ComparisonPanel extends TabPanel {
     public ComparisonPanel() {
         this(new Comparison());
     }
-    
+   
     /**
      * Creates a new ComparisonPanel that uses the given Comparison.
      *
@@ -67,22 +65,26 @@ public class ComparisonPanel extends TabPanel {
         }
         
         setLayout(new BorderLayout());
-        
-        /*
+
+        /**
          * TABLE
          */
         tableModel = new ComparisonTableModel(comparison);
         table = new JTable(tableModel);
+        
         table.getTableHeader().setReorderingAllowed(false);
         //table.getTableHeader().setResizingAllowed(false);
+        table.getTableHeader().addMouseListener(new ComparisonHeaderPopupMenu(tableModel));
         
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         add(scrollPane, BorderLayout.CENTER);
         
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        table.setRowSelectionAllowed(false);
-        //table.setSelectionModel(ListSelectionModel.SINGLE_SELECTION);
+        table.setRowSelectionAllowed(true);
+        table.setColumnSelectionAllowed(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        
         table.setDefaultRenderer(ComparisonItem.class, new ComparisonItemRenderer());
         
         // listen to mouse clicks that change markers
@@ -93,11 +95,27 @@ public class ComparisonPanel extends TabPanel {
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() != MouseEvent.BUTTON1) {
                     int row = table.rowAtPoint(e.getPoint());
-                    int column = table.columnAtPoint(e.getPoint());
-                    if (column == 0) {
-                    	switchShowParts();
-				    } else {
-                    	tableModel.nextMark(row, column);
+                    int col = table.columnAtPoint(e.getPoint());
+                    
+                    // check if the cell is part of a larger selection
+                    int[] rows = table.getSelectedRows();
+                    int[] cols = table.getSelectedColumns();
+                    
+                    for (int i = 0; i < rows.length; i++) {
+                        if (rows[i] == row) {
+                            for (int j = 0; j < cols.length; j++) {
+                                if (cols[j] == col) {
+                                    markSelectedNext();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (col == 0) {
+                        switchShowParts();
+                    } else {
+                        tableModel.nextMark(row, col);
                     }
                 }
             }
@@ -120,49 +138,69 @@ public class ComparisonPanel extends TabPanel {
 //          column.setPreferredWidth(Math.max(headerWidth, cellWidth) + 10);
 //      }
         
-        /*
-         * BOTTOM PANE
-         */
-        JPanel bottomPane = new JPanel();
-        bottomPane.setBorder(BorderFactory.createEtchedBorder());
-        bottomPane.setLayout(new FlowLayout(FlowLayout.CENTER));
-        add(bottomPane, BorderLayout.SOUTH);
         
-        /*
-         * BUTTONS
-         */
-        final JButton writeOutputButton = new JButton("Write Output");
-        final ComparisonPanel parent = this;
-        writeOutputButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                SwingWorker worker = new SwingWorker() {
-                    public Object construct() {
-                        parent.writeOutput();
-                        writeOutputButton.setEnabled(true);
-                        return null;
-                    }
-                };
-                writeOutputButton.setEnabled(false);
-                worker.start();
-            }
-        });
-        bottomPane.add(writeOutputButton);
+        add(createBottomPanel(), BorderLayout.SOUTH);
+    }
+    
+    private JPanel createBottomPanel() {
+        JPanel p = new JPanel();
+        JButton button;
         
-        JButton button = new JButton("Add Checksum File");
+        p.setBorder(BorderFactory.createEtchedBorder());
+        p.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
+        button = new JButton("Add File");
+        final JButton button1 = button;
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	button1.setEnabled(false);
+            	Thread t = new Thread() {
+            		public void run() {
+            			createAndAddChecksumFile();
+            			button1.setEnabled(true);
+            		}
+            	};
+            	t.setPriority(Thread.NORM_PRIORITY);
+            	t.start();
+            }
+        });
+        p.add(button);
+        
+        button = new JButton("Add Checksum File");
+        final JButton button2 = button;
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	button2.setEnabled(false);
                 addChecksumFile();
+            	button2.setEnabled(true);
             }
         });
-        bottomPane.add(button);
+        p.add(button);
         
-        button = new JButton("(Notepad)");
+        button = new JButton("Write Output");
+        final JButton button3 = button;
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                openNotepad();
+            	button3.setEnabled(false);
+            	Thread t = new Thread() {
+            		public void run() {
+            			writeOutput();
+            			button3.setEnabled(true);
+            		}
+            	};
+				t.setPriority(Thread.NORM_PRIORITY);
+            	t.start();
             }
         });
-//      bottomPane.add(button);
+        p.add(button);
+        
+//        button = new JButton("(Notepad)");
+//        button.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                openNotepad();
+//            }
+//        });
+//        bottomPane.add(button);
         
         button = new JButton("Close");
         button.addActionListener(new ActionListener() {
@@ -170,8 +208,9 @@ public class ComparisonPanel extends TabPanel {
                 close();
             }
         });
-        bottomPane.add(button);
+        p.add(button);
         
+        return p;
     }
     
     /**
@@ -215,12 +254,10 @@ public class ComparisonPanel extends TabPanel {
                 }
             } while (!ok);
             
-            // setup progress monitor
-            ProgressMonitor monitor = new ProgressMonitor(this, 
-                    "Writing output...", "Please Wait", 0, 0);
-            Settings.setProgressMonitor(monitor);
-            
             // start writing
+            Settings.setProgressMonitor(new ProgressMonitor(this, 
+                    "Writing output", "", 0, 0));
+            
             boolean successful = fc.writeFile(chooser.getSelectedFile());
             Settings.setCurrentDirectory(chooser.getSelectedFile());
             if (!successful) {
@@ -229,6 +266,98 @@ public class ComparisonPanel extends TabPanel {
                         + chooser.getSelectedFile().getName() + "\".", 
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+    
+    /**
+     * Creates a new ChecksumFile and adds it to the Comparison.
+     */
+    public void createAndAddChecksumFile() {
+        File inputFile;
+        File outputFile;
+        String algorithm;
+        int partLength;
+        ChecksumFile ccf;
+        
+        // select input file, algorithm and part length
+        CreateChecksumsFileChooser chooser = new CreateChecksumsFileChooser();
+        chooser.setCurrentDirectory(Settings.getCurrentDirectory());
+        
+        algorithm = tableModel.getAlgorithm();
+        partLength = tableModel.getPartLength();
+        
+        if (algorithm != null && partLength > 0) {
+    	  	chooser.setAlgorithm(algorithm);
+	        chooser.setPartLength(partLength);
+        	chooser.setOptionsEnabled(false);
+        }
+        	
+        int returnVal = chooser.showOpenDialog(this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        	algorithm = chooser.getAlgorithm();
+        	partLength = chooser.getPartLength();
+        	
+        	Settings.setDefaultAlgorithm(algorithm);
+        	Settings.setDefaultPartLength(partLength);
+            Settings.setCurrentDirectory(chooser.getSelectedFile());
+            
+            if (chooser.getSelectedFile().isFile()) {
+                inputFile = chooser.getSelectedFile();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "This is not a file.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else {
+        	return;
+        }
+        
+        // select where to save the output file
+        outputFile = new File(inputFile.getAbsolutePath() + ".ccf");
+        
+        // check input file
+        if (!inputFile.exists() || !inputFile.canRead()) {
+            JOptionPane.showMessageDialog(this, 
+                    "Unable to read "+ inputFile, 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // check output file
+        try {
+            if (!(outputFile.exists() && outputFile.canWrite()) && !(outputFile.createNewFile() && outputFile.canWrite())) {
+                JOptionPane.showMessageDialog(this, 
+                        "Unable to write "+ outputFile, 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, 
+                    "Unable to write "+ outputFile, 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // do the checksums
+        Settings.setProgressMonitor(new ProgressMonitor(this, 
+                "Creating checksums", "", 0, 0));
+        
+        ChecksumFile cf = ChecksumFile.createChecksumFile(inputFile, partLength, algorithm);
+        
+        if (cf == null) {
+            JOptionPane.showMessageDialog(this, 
+                    "An error happened in making the checksum file.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (!cf.saveToFile(outputFile)) {
+                JOptionPane.showMessageDialog(this, 
+                        "There was an error in writing "+ outputFile,
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            addChecksumFile(cf);
+            System.out.println("OK");
         }
     }
     
@@ -253,8 +382,8 @@ public class ComparisonPanel extends TabPanel {
         chooser.setFileFilter(filter);
         chooser.setSelectedFile(new File("*.ccf"));
         chooser.setCurrentDirectory(Settings.getCurrentDirectory());
-        
         int returnVal = chooser.showOpenDialog(this);
+        
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             
             ChecksumFile cf = ChecksumFile.loadFromFile(chooser.getSelectedFile());
@@ -311,7 +440,7 @@ public class ComparisonPanel extends TabPanel {
         
         boolean ok = false;
         do {
-            int returnVal = chooser.showSaveDialog(this);
+            int returnVal = chooser.showDialog(this, "Save As");
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 
                 if (chooser.getSelectedFile().exists()) {
@@ -370,63 +499,98 @@ public class ComparisonPanel extends TabPanel {
      * Returns the TableModel connected to this ComparisonPanel.
      */
     public ComparisonTableModel getTableModel() {
-        return this.tableModel;
+        return tableModel;
     }
     
     /**
      * Switches between showing part numbers and byte offsets in the first column.
      */
     public void switchShowParts() {
-    	this.tableModel.switchShowParts();
-    	
-    	// update column header
-    	TableColumn col = this.table.getColumnModel().getColumn(0);
-    	col.setHeaderValue(this.tableModel.getColumnName(0));
-    	this.table.getTableHeader().repaint();
+        tableModel.switchShowParts();
+        
+        // update column header
+        TableColumn col = this.table.getColumnModel().getColumn(0);
+        col.setHeaderValue(this.tableModel.getColumnName(0));
+        this.table.getTableHeader().repaint();
+    }
+    
+    /**
+     * Sets the marker for all selected cells 
+     * if all of them have the same old marker
+     *
+     * @param   mark  new marker value to be set
+     * @return	true if successful, false otherwise
+     */
+    private void markSelected(int mark) {
+        int[] rows = table.getSelectedRows();
+        int[] cols = table.getSelectedColumns();
+        tableModel.setMarks(rows, cols, mark);
     }
     
     /**
      * Marks the selected cell's ComparisonItem "good".
      */
     public void markSelectedGood() {
-        int row = table.getSelectedRow();
-        int column = table.getSelectedColumn();
-        tableModel.setMark(row, column, Comparison.MARK_IS_GOOD);
+        markSelected(Comparison.MARK_IS_GOOD);
     }
     
     /**
      * Marks the selected cell's ComparisonItem "bad".
      */
     public void markSelectedBad() {
-        int row = table.getSelectedRow();
-        int column = table.getSelectedColumn();
-        tableModel.setMark(row, column, Comparison.MARK_IS_BAD);
+        markSelected(Comparison.MARK_IS_BAD);
     }
     
     /**
      * Marks the selected cell's ComparisonItem "unsure".
      */
     public void markSelectedUnsure() {
-        int row = table.getSelectedRow();
-        int column = table.getSelectedColumn();
-        tableModel.setMark(row, column, Comparison.MARK_IS_UNSURE);
+        markSelected(Comparison.MARK_IS_UNSURE);
     }
     
     /**
      * Marks the selected cell's ComparisonItem "undefined".
      */
     public void markSelectedUndefined() {
-        int row = table.getSelectedRow();
-        int column = table.getSelectedColumn();
-        tableModel.setMark(row, column, Comparison.MARK_IS_UNDEFINED);
+        markSelected(Comparison.MARK_IS_UNDEFINED);
     }
     
     /**
      * Changes the mark of the selected cell's ComparisonItem.
      */
     public void markSelectedNext() {
-        int row = table.getSelectedRow();
-        int column = table.getSelectedColumn();
-    	tableModel.nextMark(row, column);
+        markSelected(Comparison.NEXT_MARK);
+    }
+    
+    /**
+     * Finds and marks cells in the table which appear to be good parts.
+     */
+    public void markGoodPartsInTable() {
+        tableModel.markGoodParts(0, table.getRowCount() - 1);
+    }
+
+    /**
+     * Sets all parts in the table to MARK_IS_UNDEFINED.
+     */
+    public void markTableUndefined() {
+        tableModel.markRowUndefined(0, table.getRowCount() - 1);
+    }
+
+    /**
+     * Returns the name of the comparison.
+     *
+     * @return the name of the comparison as a <code>String</code>
+     */
+    public String getName() {
+        return tableModel.getName();
+    }
+
+    /**
+     * Sets the name of the comparison to the given <code>String</code>.
+     *
+     * @param name the new name of the comparison
+     */
+    public void setName(String name) {
+        tableModel.setName(name);
     }
 }

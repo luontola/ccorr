@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004 Esko Luontola, esko.luontola@cs.helsinki.fi
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -18,13 +18,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+import fi.helsinki.cs.luontola.ccorr.*;
+import fi.helsinki.cs.luontola.ccorr.gui.*;
+
 /**
  * Starts Corruption Corrector
  */
 public class Main {
     public static void main(String[] args){
-        System.out.println("< Starting Corruption Corrector >");
-        fi.helsinki.cs.luontola.ccorr.gui.MainWindow.main(args);
-        System.out.println("< Started >");
+        Log.print("Corruption Corrector: Starting");
+        MainWindow.main(args);
+        Log.println("Corruption Corrector: Started");
     }
 }

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -27,7 +27,6 @@ import jonelo.jacksum.algorithm.*;
  * A class that can be used to compute the checksum of a data stream
  * with many different algorithms.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class CRC {
@@ -36,8 +35,15 @@ public class CRC {
      * All algorithms known by this class.
      */
     private static final String[] ALGORITHM_NAMES = { 
-        "CRC-32",       "MD5",          "Adler32",      "BSD sum", 
-        "POSIX cksum",  "CRC-16",       "SHA-1",        "Unix System V"
+        "CRC-32",
+        "MD5",
+        "SHA-1"
+// no need to have this many algorithms...
+//        "Adler32",
+//        "BSD sum",
+//        "POSIX cksum",
+//        "CRC-16",
+//        "Unix System V"
         };
     
     /**
@@ -50,6 +56,16 @@ public class CRC {
      */
     private String algorithmName;
     
+    /**
+     * The first byte of the data
+     */
+    private int firstByte = Byte.MIN_VALUE - 1;
+    
+    /**
+     * Binary OR for all bytes of the data
+     */
+    private boolean allSameAsFirstByte = true;
+
     /**
      * Creates a new <code>CRC</code> that uses the given algorithm.
      * If the algorithmn name is not recognized, CRC-32 will be used.
@@ -67,6 +83,8 @@ public class CRC {
             this.crc = new Crc32();
         } else if (algorithm.equals("MD5")) {
             this.crc = new MD("MD5");
+        } else if (algorithm.equals("SHA-1")) {
+            this.crc = new MD("SHA-1");
         } else if (algorithm.equals("Adler32")) {
             this.crc = new Adler32();
         } else if (algorithm.equals("BSD sum")) {
@@ -75,8 +93,6 @@ public class CRC {
             this.crc = new Cksum();
         } else if (algorithm.equals("CRC-16")) {    // CRC-16 is for some reason very slow
             this.crc = new Crc16();
-        } else if (algorithm.equals("SHA-1")) {
-            this.crc = new MD("SHA-1");
         } else if (algorithm.equals("Unix System V")) {
             this.crc = new SumSysV();
         } else {
@@ -91,7 +107,9 @@ public class CRC {
      * Resets the checksum to initial value.
      */
     public void reset() {
-        this.crc.reset();
+        crc.reset();
+        firstByte = Byte.MIN_VALUE - 1;
+        allSameAsFirstByte = true;
     }
     
     /**
@@ -102,16 +120,37 @@ public class CRC {
      * @param   length  the number of bytes to use for the update
      */
     public void update(byte[] bytes, int offset, int length) {
-        this.crc.update(bytes, offset, length);
+        crc.update(bytes, offset, length);
+        
+        if (firstByte < Byte.MIN_VALUE) {
+        	firstByte = bytes[offset];
+        	allSameAsFirstByte = true;
+    	}
+    	if (allSameAsFirstByte) {
+    		for (int i = offset; i < length; i++) {
+    			if (bytes[i] != firstByte) {
+    				allSameAsFirstByte = false;
+    				break;
+		    	}
+			}
+		}
     }
     
     /**
      * Returns the checksum value in HEX format.
      *
-     * @return  the current checksum value
+     * @return  the current checksum value or "0x??" if all bytes are it
      */
     public String getHexValue() {
-        return this.crc.getHexValue();
+        if (!allSameAsFirstByte) {
+            return crc.getHexValue();
+        } else {
+        	String hex = Integer.toHexString(firstByte & 0xFF).toUpperCase();
+        	if (hex.length() < 2) {
+        		hex = "0" + hex;
+        	}
+            return "0x" + hex;
+        }
     }
     
     /**

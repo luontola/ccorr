@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -32,7 +32,6 @@ import javax.swing.ProgressMonitor;
  * other data are used in a <code>Comparison</code> to find the differences 
  * between any files.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class ChecksumFile implements Serializable {
@@ -40,7 +39,7 @@ public class ChecksumFile implements Serializable {
     /**
      * Maximum allowed part length in bytes.
      */
-    public static final int MAX_PART_SIZE = 1024 * 1024;    // 1 MB
+    public static final int MAX_PART_SIZE = 100 * 1024 * 1024;    // 100 MB
     
     /**
      * Minimum allowed part length in bytes.
@@ -219,6 +218,7 @@ public class ChecksumFile implements Serializable {
                             monitor.setProgress(percentage);
                             monitor.setNote("Completed "+ percentage +"%");
                             lastMonitorValue = percentage;
+                            Thread.yield(); // allow the GUI some time to be updated
                         }
                         
                         if (monitor.isCanceled()) {

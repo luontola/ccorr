@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Help</title>
+
+<link rel="stylesheet" href="style.css" type="text/css">
+
+</head>
+<body>
+
+<h1>Command Reference</h1>
+
+
+<p>Here are some of the program's features that might not be self explanatory.</p>
+
+<h3>"Why does the program show <code>0x00</code> instead of that part's checksum?"</h3>
+<p>If any byte is repeated throughout a part, that byte's hexadecimal code will be shown instead of the checksum.</p>
+
+<h3>Removing a file from the comparison</h3>
+<p>Right-click the file's header and choose Remove from the menu. You should not remove a file unless it has no good parts that would be needed to repair the file.</p>
+
+<h3>"I changed the location of one of the input files and the program can't find it when writing the output!"</h3>
+<p>Click the Add File button and add it again to the comparison. After that you can remove the old record of the file. This way you will not lose your markers.</p>
+
+<p>This might be fixed in future versions (at the time of writing this the latest version was 1.01).</p>
+
+<h3>When to change the part length and algorithm?</h3>
+<p>If there are large block of corruption, you might want to go for larger parts. If you are fixing small files, you might want to make them smaller. The limits are 1 KB and 100 MB.</p>
+
+<p>If CRC-32 (32 bits) is not reliable enough for you, you can use for example the MD5 (128 bits) or SHA-1 (160 bits) algorithm.</p>
+
+<h3>Tools: Try to Guess Good Parts</h3>
+<p>This will mark parts "good" based on their popularity. This does not necessarily mean that you will get an uncorrupted copy, so don't use this feature unless you know what you are doing. Rows that already have some markers will not be affected.</p>
+
+
+<p><hr>Return to <a href="index.html">Help Topics</a></p>

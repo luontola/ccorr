@@ -1,0 +1,18 @@
+
+BODY, P, TD, TH, LI, DD, DT, BR {
+	color: #000000;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+A {
+	text-decoration: none;
+}
+
+H1, H2, H3 {
+	margin-top: 24px;
+}
+
+HR {
+	margin-top: 36px;
+}

@@ -8,6 +8,10 @@ LABEL := "CCorr"
 #[BeginProject]SOURCE := "\\CCorr.jcp" #[EndProject]
 
 ! Start Last Document Structure
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\HelpDialog.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\help\\commands.html" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\help\\index.html" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\help\\tutorial.html" #[EndFile]
 
 ! Start Breakpoint Structure
 

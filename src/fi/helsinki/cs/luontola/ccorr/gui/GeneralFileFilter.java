@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -27,7 +27,6 @@ import javax.swing.filechooser.FileFilter;
  * A <code>FileFilter</code> for a <code>FileChooser</code>. Can be used to 
  * show only some file types, determined by extension.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class GeneralFileFilter extends FileFilter   {

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -31,11 +31,10 @@ import javax.swing.table.*;
  * A <code>TableModel</code> for showing a <code>Comparison</code>
  * in a <code>JTable</code>.
  *
- * @version     1.01, 2003-02-13
  * @author      Esko Luontola
  */
 public class ComparisonTableModel extends AbstractTableModel {
-    
+	
     /**
      * The Comparison object that this ComparisonPanel represents.
      */
@@ -47,9 +46,14 @@ public class ComparisonTableModel extends AbstractTableModel {
     private boolean isModified = false;
     
     /**
-     * Indicates whether part numbers or byte offsets are shown.
+     * Indicates whether part numbers or byte/KB/MB offsets are shown.
      */
-    private boolean showParts = true;
+    private int showMode = 0;
+    
+    private static final int SHOW_PARTS = 0;
+    private static final int SHOW_BYTES = 1;
+    private static final int SHOW_KILOBYTES = 2;
+    private static final int SHOW_MEGABYTES = 3;
     
     /**
      * Creates a new instance of this class.
@@ -82,29 +86,54 @@ public class ComparisonTableModel extends AbstractTableModel {
      * Returns the name of the column at columnIndex.
      */
     public String getColumnName(int columnIndex) {
+    	String result;
         if (columnIndex == 0) {
-        	if (this.showParts) {
-        		return "Part #";
-		    } else {
-		    	return "Bytes";
-		    }
+        	switch (showMode) {
+        		default:
+        		case SHOW_PARTS:
+        			result = "Part #";
+        			break;
+        		case SHOW_BYTES:
+        			result = "Bytes";
+        			break;
+        		case SHOW_KILOBYTES:
+        			result = "KBytes";
+        			break;
+        		case SHOW_MEGABYTES:
+        			result = "MBytes";
+        			break;
+        	}
         } else {
-            return this.comparison.getFile(columnIndex - 1).getSourceFile().getName();
+            result = this.comparison.getFile(columnIndex - 1).getSourceFile().getName();
         }
+        return result;
     }
     
     /**
      * Returns the value for the cell at rowIndex and columnIndex.
      */
     public Object getValueAt(int rowIndex, int columnIndex) {
+    	final int DECIMALS = 100;
         Object result;
         if (columnIndex == 0) {
-        	if (this.showParts) {
-        		result = Integer.toString(comparison.getPart(rowIndex) + 1);
-		    } else {
-        		result = comparison.getStartOffset(rowIndex) 
+        	switch (showMode) {
+        		default:
+        		case SHOW_PARTS:
+        			result = Integer.toString(comparison.getPart(rowIndex) + 1);
+        			break;
+        		case SHOW_BYTES:
+        			result = comparison.getStartOffset(rowIndex) 
         				 + "-" + comparison.getEndOffset(rowIndex);
-		    }
+        			break;
+        		case SHOW_KILOBYTES:
+        			result = (double)Math.round((double)comparison.getStartOffset(rowIndex) / 1024 * DECIMALS) / DECIMALS
+        				 + "-" + (double)Math.round((double)comparison.getEndOffset(rowIndex) / 1024 * DECIMALS) / DECIMALS;
+        			break;
+        		case SHOW_MEGABYTES:
+        			result = (double)Math.round((double)comparison.getStartOffset(rowIndex) / 1024 / 1024 * DECIMALS) / DECIMALS
+        				 + "-" + (double)Math.round((double)comparison.getEndOffset(rowIndex) / 1024 / 1024 * DECIMALS) / DECIMALS;
+        			break;
+        	}
         } else {
             result = this.comparison.getItem(rowIndex, columnIndex - 1);
         }
@@ -141,14 +170,12 @@ public class ComparisonTableModel extends AbstractTableModel {
      * Does only fireTableDataChanged and not update the column header.
      */
     public void switchShowParts() {
-    	this.showParts = !this.showParts;
-    	this.fireTableDataChanged();
+    	showMode = (showMode + 1) % 4;
+    	fireTableDataChanged();
 	}
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#doCompare()
      */
     public void doCompare() {
         this.isModified = true;
@@ -158,8 +185,6 @@ public class ComparisonTableModel extends AbstractTableModel {
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#getFiles()
      */
     public int getFiles() {
         return this.comparison.getFiles();
@@ -167,115 +192,197 @@ public class ComparisonTableModel extends AbstractTableModel {
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#setMark(int, int, int)
      */
     public void setMark(int row, int col, int mark) {
-        this.isModified = true;
-        this.comparison.setMark(row, col - 1, mark);
-        this.fireTableRowsUpdated(row, row);
+        isModified = true;
+        comparison.setMark(row, col - 1, mark);
+        fireTableRowsUpdated(row, row);
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#nextMark(int, int)
+     */
+    public int getMark(int row, int col) {
+        return comparison.getMark(row, col - 1);
+    }
+    
+    /**
+     * Set multiple markers at once.
+     */
+    public boolean setMarks(int[] rows, int[] cols, int mark) {
+    	
+    	// do not allow more than one column to be set
+    	if (cols.length != 1) {
+    		return false;
+    	}
+    	
+    	// do not allow the first column to be set
+    	if (cols[0] == 0) {
+    		return false;
+    	}
+    	
+    	int oldMark = getMark(rows[0], cols[0]);
+    	
+    	// all selected cells must have the same old marker
+    	for (int row = 0; row < rows.length; row++) {
+    		for (int col = 0; col < cols.length; col++) {
+   				if (getMark(rows[row], cols[col]) != oldMark) {
+   					return false;
+   				}
+		    }
+		}
+		
+		// set the markers
+    	for (int row = 0; row < rows.length; row++) {
+    		for (int col = 0; col < cols.length; col++) {
+				setMark(rows[row], cols[col], mark);
+		    }
+		}
+		return true;
+    }
+    
+    /**
+     * Represents the corresponding method in the comparison.
      */
     public int nextMark(int row, int col) {
-        this.isModified = true;
+        isModified = true;
         int result = this.comparison.nextMark(row, col - 1);
-        this.fireTableRowsUpdated(row, row);
+        fireTableRowsUpdated(row, row);
         return result;
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#setComments(String)
      */
-    public void setComments(String comments) {
-        this.isModified = true;
-        this.comparison.setComments(comments);
+    public String getName() {
+        return comparison.getName();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#getComments()
+     */
+    public void setName(String name) {
+        comparison.setName(name);
+    }
+    
+    /**
+     * Represents the corresponding method in the comparison.
      */
     public String getComments() {
-        return this.comparison.getComments();
+        return comparison.getComments();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#addFile(ChecksumFile)
+     */
+    public void setComments(String comments) {
+        isModified = true;
+        comparison.setComments(comments);
+    }
+    
+    /**
+     * Represents the corresponding method in the comparison.
+     */
+    public String getAlgorithm() {
+    	return comparison.getAlgorithm();
+    }
+    
+    /**
+     * Represents the corresponding method in the comparison.
+     */
+    public int getPartLength() {
+    	return comparison.getPartLength();
+    }
+    
+    /**
+     * Represents the corresponding method in the comparison.
      */
     public void addFile(ChecksumFile file) {
-        this.isModified = true;
-        this.comparison.addFile(file);
-        this.comparison.doCompare();
-        this.fireTableStructureChanged();
+        isModified = true;
+        comparison.addFile(file);
+        comparison.doCompare();
+        fireTableStructureChanged();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#removeFile(ChecksumFile)
      */
     public void removeFile(ChecksumFile file) {
-        this.isModified = true;
-        this.comparison.removeFile(file);
-        this.comparison.doCompare();
-        this.fireTableStructureChanged();
+        isModified = true;
+        comparison.removeFile(file);
+        comparison.doCompare();
+        fireTableStructureChanged();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#createGoodCombination()
+     */
+    public void removeFile(int file) {
+        isModified = true;
+        comparison.removeFile(file);
+        comparison.doCompare();
+        fireTableStructureChanged();
+    }
+
+    /**
+     * Represents the corresponding method in the comparison.
      */
     public FileCombination createGoodCombination() {
-        return this.comparison.createGoodCombination();
+        return comparison.createGoodCombination();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#getPossibleCombinations()
      */
     public int getPossibleCombinations() {
-        return this.comparison.getPossibleCombinations();
+        return comparison.getPossibleCombinations();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#createPossibleCombinations()
      */
     public FileCombination[] createPossibleCombinations() {
-        return this.comparison.createPossibleCombinations();
+        return comparison.createPossibleCombinations();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#getSavedAsFile()
      */
     public File getSavedAsFile() {
-        return this.comparison.getSavedAsFile();
+        return comparison.getSavedAsFile();
     }
     
     /**
      * Represents the corresponding method in the comparison.
-     *
-     * @see Comparison#saveToFile(File)
      */
     public boolean saveToFile(File file) {
         boolean successful = this.comparison.saveToFile(file);
         if (successful) {
-            this.isModified = false;
+            isModified = false;
+        }
+        return successful;
+    }
+    
+    /**
+     * Represents the corresponding method in the comparison.
+     */
+    public boolean markGoodParts(int start, int end) {
+        boolean successful = this.comparison.markGoodParts(start, end);
+        if (successful) {
+            isModified = true;
+            fireTableRowsUpdated(start, end);
+        }
+        return successful;
+    }
+    
+    /**
+     * Represents the corresponding method in the comparison.
+     */
+    public boolean markRowUndefined(int start, int end) {
+        boolean successful = this.comparison.markRowUndefined(start, end);
+        if (successful) {
+            isModified = true;
+            fireTableRowsUpdated(start, end);
         }
         return successful;
     }

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -31,18 +31,22 @@ import javax.swing.table.*;
  * A <code>TableCellRenderer</code> for rendering a <code>ComparisonItem</code> 
  * in a <code>JTable</code>.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 class ComparisonItemRenderer extends JLabel implements TableCellRenderer {
+	
+	public static final Color COLOR_UNDEFINED = Color.white;
+	public static final Color COLOR_GOOD      = new Color(150, 255, 150);
+	public static final Color COLOR_BAD       = new Color(255, 150, 150);
+	public static final Color COLOR_UNSURE    = new Color(255, 255, 150);
+	public static final Color COLOR_BORDER    = new Color(128, 128, 196);
     
     /**
      * Creates a new instance of this class.
      */
     public ComparisonItemRenderer() {
-        this.setOpaque(true);
-        this.setHorizontalAlignment(JLabel.CENTER);
-        //this.setVerticalAlignment(JLabel.CENTER);
+        setOpaque(true);
+        setHorizontalAlignment(JLabel.CENTER);
     }
     
     /**
@@ -53,35 +57,32 @@ class ComparisonItemRenderer extends JLabel implements TableCellRenderer {
         
         if (value instanceof ComparisonItem) {
             ComparisonItem item = (ComparisonItem) (value);
-            this.setText(item.getCaption());
-            this.setFont(new Font("Courier New", Font.PLAIN, 12));
+            setText(item.getCaption());
+            setFont(new Font("Courier New", Font.PLAIN, 12));
             
             Color color;
             switch (item.getMark()) {
+            default:
             case Comparison.MARK_IS_UNDEFINED:
-                color = Color.white;
+                color = COLOR_UNDEFINED;
                 break;
             
             case Comparison.MARK_IS_GOOD:
-                color = new Color(150, 255, 150);
+                color = COLOR_GOOD;
                 break;
             
             case Comparison.MARK_IS_BAD:
-                color = new Color(255, 150, 150);
+                color = COLOR_BAD;
                 break;
             
             case Comparison.MARK_IS_UNSURE:
-                color = new Color(255, 255, 150);
-                break;
-            
-            default:
-                color = Color.white;
+                color = COLOR_UNSURE;
                 break;
             }
-            this.setBackground(color);
+            setBackground(color);
             
-            if (hasFocus) {
-                this.setBorder(BorderFactory.createLineBorder(new Color(128, 128, 196), 1));
+            if (hasFocus || isSelected) {
+                this.setBorder(BorderFactory.createLineBorder(COLOR_BORDER, 1));
             } else {
                 this.setBorder(null);
             }

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -32,7 +32,6 @@ import javax.swing.ProgressMonitor;
  * its checksum can be calculated without writing a physical file. A 
  * <code>FileCombination</code> is usually created by a <code>Comparison</code>. 
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class FileCombination {
@@ -163,6 +162,9 @@ public class FileCombination {
         boolean successful = false;
         ProgressMonitor monitor = Settings.getProgressMonitor();
         
+        BufferedInputStream input;
+        BufferedOutputStream output;
+        
         try {
             long written = 0;
             long fileLength = this.getLength();
@@ -174,12 +176,10 @@ public class FileCombination {
                 monitor.setMaximum(100);
             }
             
-            BufferedInputStream input;
-            BufferedOutputStream output = 
-                    new BufferedOutputStream(
-                            new FileOutputStream(file, false), 
-                            Settings.getWriteBufferLength()
-                    );
+            
+            output = new BufferedOutputStream(
+            		new FileOutputStream(file, false), 
+            		Settings.getWriteBufferLength());
             byte[] buffer = new byte[BUFFER_LENGTH];
             
             // start writing
@@ -261,14 +261,17 @@ public class FileCombination {
             // update progress monitor
             if (monitor != null) {
                 progressValue += len;
-                int persentage = (int) (progressValue * 100 / progressMax);
-                if (persentage != lastMonitorValue) {
-                    monitor.setProgress(persentage);
-                    monitor.setNote("Completed "+ persentage +"%");
-                    lastMonitorValue = persentage;
+                int percentage = (int) (progressValue * 100 / progressMax);
+                if (percentage != lastMonitorValue) {
+                    monitor.setProgress(percentage);
+                    monitor.setNote("Completed "+ percentage +"%");
+                    lastMonitorValue = percentage;
+                    Thread.yield(); // allow the GUI some time to be updated
                 }
                 
                 if (monitor.isCanceled()) {
+                	input.close();
+                	output.close();
                     throw new Exception("Cancelled by user");
                 }
             }

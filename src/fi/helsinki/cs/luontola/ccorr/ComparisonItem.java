@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -27,7 +27,6 @@ import java.io.*;
  * <code>ComparisonItem</code> stores the marker set to it, which is used to
  * indicate whether the related part is corrupt or not.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class ComparisonItem implements Serializable {
@@ -84,7 +83,11 @@ public class ComparisonItem implements Serializable {
      */
     public void setMark(int mark) {
         if (this.getChecksum().length() != 0) {     // if the file is long enough
-            this.mark = mark;
+        	if (mark == Comparison.NEXT_MARK) {
+        		nextMark();
+        	} else {
+            	this.mark = mark;
+        	}
         }
     }
     
@@ -121,11 +124,7 @@ public class ComparisonItem implements Serializable {
             this.mark = Comparison.MARK_IS_UNSURE;
             break;
         
-        case Comparison.MARK_IS_UNSURE:
-            this.mark = Comparison.MARK_IS_UNDEFINED;
-            break;
-        
-        default:
+        case Comparison.MARK_IS_UNSURE: default:
             this.mark = Comparison.MARK_IS_UNDEFINED;
             break;
         }

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -29,7 +29,6 @@ import java.util.zip.*;
  * serializable. The file format used is gzipped 
  * {@link ObjectOutputStream ObjectOutputStream}.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class ObjectSaver {
@@ -48,7 +47,7 @@ public class ObjectSaver {
      */
     public static boolean saveToFile(File file, Object obj) {
         if (file == null || obj == null) {
-            Log.println("ObjectSaver.saveToFile: Aborted, null arguments");
+            Log.print("ObjectSaver.saveToFile: Aborted, null arguments");
             return false;
         }
         
@@ -72,11 +71,11 @@ public class ObjectSaver {
             output.writeObject(obj);
             output.close();
         } catch (Exception e) {
-            Log.println("ObjectSaver.saveToFile: Aborted, "+ e);
+            Log.print("ObjectSaver.saveToFile: Aborted, "+ e);
             return false;
         }
         
-        Log.println("ObjectSaver.saveToFile: Done, wrote "+ obj.getClass() +" to "+ file);
+        Log.print("ObjectSaver.saveToFile: Done, wrote "+ obj.getClass() +" to "+ file);
         return true;
     }
     
@@ -88,7 +87,7 @@ public class ObjectSaver {
      */
     public static Object loadFromFile(File file) {
         if (file == null) {
-            Log.println("ObjectSaver.loadFromFile: Aborted, null arguments");
+            Log.print("ObjectSaver.loadFromFile: Aborted, null arguments");
             return null;
         }
         
@@ -113,11 +112,11 @@ public class ObjectSaver {
             result = input.readObject();
             input.close();
         } catch (Exception e) {
-            Log.println("ObjectSaver.loadFromFile: Aborted, "+ e);
+            Log.print("ObjectSaver.loadFromFile: Aborted, "+ e);
             return null;
         }
         
-        Log.println("ObjectSaver.loadFromFile: Done, read "+ result.getClass() +" from "+ file);
+        Log.print("ObjectSaver.loadFromFile: Done, read "+ result.getClass() +" from "+ file);
         return result;
     }
 }

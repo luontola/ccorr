@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -29,20 +29,15 @@ import javax.swing.ProgressMonitor;
  * class is initiated and they are saved at request. The settings are stored in 
  * the user's home directory as <code>.ccorr.cfg</code>.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class Settings implements Serializable {
     
-    /**
-     * The full name of this program.
-     */
     public static final String APP_NAME = "Corruption Corrector";
-    
-    /**
-     * The version number of this program.
-     */
-    public static final String VERSION_NUMBER = "1.0 RC1";
+    public static final String APP_NAME_SHORT = "CCorr";
+    public static final String VERSION_NUMBER = "1.01";
+    public static final String COPYRIGHT = "Copyright (C) 2003-2004  Esko Luontola";
+    public static final String WEBSITE = "http://ccorr.sourceforge.net";
     
     /**
      * The minimum buffer length to be used for reading and writing files.
@@ -79,14 +74,14 @@ public class Settings implements Serializable {
     private int defaultPartLength = 16 * 1024;      // 16 KB
     
     /**
-     * Buffer length for <code>InputStream</code>s.
+     * Buffer length for <code>InputStream</code>s
      */
-    private int readBufferLength = 128 * 1024;      // 128 KB
+    private int readBufferLength = 512 * 1024;      // 0.5 MB
     
     /**
-     * Buffer length for <code>OutpuStream</code>s.
+     * Buffer length for <code>OutpuStream</code>s
      */
-    private int writeBufferLength = 512 * 1024;     // 0.5 MB
+    private int writeBufferLength = 2 * 1024 * 1024;     // 2 MB
     
     /**
      * Whether mark mirroring is enabled.
@@ -102,7 +97,7 @@ public class Settings implements Serializable {
      * The size and location of the {@link fi.helsinki.cs.luontola.ccorr.gui.MainWindow 
      * MainWindow} for future sessions.
      */
-    private Rectangle windowBounds = new Rectangle(400, 300, 500, 400);
+    private Rectangle windowBounds = new Rectangle(300, 300, 500, 420);
     
     /**
      * The <code>ProgressMonitor</code> for the next long task.
@@ -125,9 +120,9 @@ public class Settings implements Serializable {
      */
     public static void saveSettings() {
         if (ObjectSaver.saveToFile(settingsFile, settings)) {
-            Log.print("< SETTINGS SAVED >");
+            Log.print("Settings: Saved");
         } else {
-            Log.print("< SAVING SETTINGS FAILED >");
+            Log.print("Settings: Saving Failed");
         }
     }
     
@@ -140,9 +135,9 @@ public class Settings implements Serializable {
         Object obj = ObjectSaver.loadFromFile(settingsFile);
         if (obj instanceof Settings) {
             settings = (Settings) (obj);
-            Log.print("< SETTINGS LOADED >");
+            Log.print("Settings: Loaded");
         } else {
-            Log.print("< LOADING SETTINGS FAILED >");
+            Log.print("Settings: Loading Failed");
         }
     }
     
@@ -190,7 +185,7 @@ public class Settings implements Serializable {
     }
     
     /**
-     * Sets the buffer length for <code>InputStream</code>s.
+     * Sets the buffer length for <code>InputStreams</code>.
      * If the value is less than <code>MIN_BUFFER_LENGTH</code> or
      * greater than <code>MAX_BUFFER_LENGTH</code>, the nearest 
      * allowed value will be used.
@@ -205,14 +200,14 @@ public class Settings implements Serializable {
     }
     
     /**
-     * Returns the buffer length for <code>InputStream</code>s.
+     * Returns the buffer length for <code>InputStreams</code>.
      */
     public static int getReadBufferLength() {
         return settings.readBufferLength;
     }
     
     /**
-     * Sets the buffer length for <code>OutputStream</code>s.
+     * Sets the buffer length for <code>OutputStreams</code>.
      * If the value is less than <code>MIN_BUFFER_LENGTH</code> or
      * greater than <code>MAX_BUFFER_LENGTH</code>, the nearest 
      * allowed value will be used.
@@ -227,7 +222,7 @@ public class Settings implements Serializable {
     }
     
     /**
-     * Returns the buffer length for <code>OutputStream</code>s.
+     * Returns the buffer length for <code>OutputStreams</code>.
      */
     public static int getWriteBufferLength() {
         return settings.writeBufferLength;

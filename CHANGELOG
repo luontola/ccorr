@@ -1,0 +1,36 @@
+
+    Corruption Corrector
+
+
+Version 1.01 (1.7.2004)
+    FEATURE:  Removing a file from the comparison by right clicking 
+              the column header (thanks Harald Judt)
+    FEATURE:  Renaming the comparison (thanks Harald Judt)
+    FEATURE:  Try to guess the good parts based on their popularity 
+              (thanks Harald Judt)
+    FEATURE:  Set all parts to undefined (thanks Harald Judt)
+    FEATURE:  If the data of one part consists of only one repeated 
+              byte, show that byte's hex value instead of the crc
+              (thanks Jonas Jensen for the idea)
+    FEATURE:  Show KBytes and MBytes when right clicking the first 
+              column two and three times
+    FEATURE:  By selecting multiple rows in a column, you can set
+              multiple markers at a time. You may select only cells
+              in one column at a time, and all of the cells must
+              have the same old marker value
+    FEATURE:  You can choose the checksum algorithm and part length
+              when adding the first file to a comparison. Limits for
+              the part length are 1 KB and 100 MB
+    FEATURE:  About dialog
+    FEATURE:  Help files
+              
+     CHANGE:  The CCF files are now created using the "Add File" 
+              button and not anymore through a special page
+     CHANGE:  The keyboard shortcuts for Mark Good..Undefined were
+              changed from ALT+1..4 to 1..4
+              
+       NOTE:  The CCP and CCF files made with previous versions are 
+              not compatible with this version
+
+Version 1.0 (21.2.2003)
+    FEATURE:  Initial release

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -28,9 +28,12 @@ import javax.swing.*;
 /**
  * NOT IMPLEMENTED
  *
- * @version     0.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class Default {
+	
+	public Default() {
+		
+	}
     
 }

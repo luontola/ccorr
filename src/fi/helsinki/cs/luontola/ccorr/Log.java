@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -27,7 +27,6 @@ import java.util.*;
  * A class used for logging debug information. The messages are printed to 
  * <code>System.out</code> with a timestamp.
  *
- * @version     1.00, 2003-02-06
  * @author      Esko Luontola
  */
 public class Log {
