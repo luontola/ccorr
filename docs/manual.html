@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>Corruption Corrector (CCorr)</title>
+</head>
+<body>
+
+
+
+	<h1>Corruption Corrector v1.0 RC1 <br />User Manual</h1>
+
+
+<p>Copyright &copy; 2003 Esko Luontola, <a href="mailto:esko.luontola@cs.helsinki.fi">esko.luontola@cs.helsinki.fi</a></p>
+
+
+
+	<hr /><h2>Contents</h2>
+
+<p><a href="#intro">INTRODUCTION</a>
+<br /><a href="#req">MINIMUM REQUIREMENTS</a>
+<br /><a href="#install">INSTALLING AND RUNNING</a>
+<br /><a href="#uninstall">UNINSTALLING</a>
+<br /><a href="#howto">HOW TO USE</a>
+<br /><a href="#errors">ERROR MESSAGES</a>
+<br /><a href="#version">VERSION HISTORY</a>
+<br /><a href="#coming">UPCOMING FEATURES</a>
+<br /><a href="#license">LICENSE</a>
+</p>
+
+<p>Last updated: 2003-02-19</p>
+
+
+	<hr /><h2><a name="intro"></a>Introduction</h2>
+
+<p>Corruption Corrector (CCorr) is a program designed for fixing corrupt files. It is for situations when you have (downloaded) many copies of the same file, but all of the copies are a bit corrupt. If the corruptions are in different parts of the file, it is possible to combine the good bytes from each file and get an uncorrupted copy of the file.</p>
+
+<p>At first CCorr creates checksums from the files at regular intervals (e.g. 16KB) after which the files can be compared to locate the corrupted parts. The user chooses which parts are corrupt and which are good, after which CCorr writes a combination of all the good parts into a new file, and thus fixes the corruptions if possible.</p>
+
+<p>This program has been made by Esko Luontola using the <a href="http://java.sun.com/">Java</a> programming language. Corruption Corrector is licenced under the <a href="LICENSE">GNU General Public License (GPL)</a>.</p>
+
+<p>Web site: <a href="http://ccorr.sourceforge.net/">http://ccorr.sourceforge.net/</a></p>
+
+
+	<hr /><h2><a name="req"></a>Minimum Requirements</h2>
+
+<ul>
+	<li>Java 1.4 JRE from <a href="http://java.sun.com/">http://java.sun.com/</a> (CCorr has been tested with <a href="http://java.sun.com/j2se/1.4.1/download.html">J2SE v1.4.1_01</a>)</li>
+	<li>Enough free hard drive space for the fixed files</li>
+</ul>
+
+
+	<hr /><h2><a name="install"></a>Installing and Running</h2>
+
+<ol>
+	<li>Download the CCorr distribution package from the official web site at <a href="http://ccorr.sourceforge.net/">http://ccorr.sourceforge.net/</a></li>
+	<li>Unpack the distribution package with <a href="http://www.rarlab.com/">WinRAR</a>, <a href="http://www.winzip.com/">Winzip</a> (Windows), unzip (Linux etc.) or a similar program</li>
+	<li>Download and install (if not already done so) the latest version of the Java Runtime Environment (JRE) from <a href="http://java.sun.com/">http://java.sun.com/</a></li>
+	<li>Start the program with the command <b><code>java -jar CCorr.jar</code></b> or <b><code>javaw -jar CCorr.jar</code></b> or on some systems by double clicking the JAR file</li>
+</ol>
+
+
+
+	<hr /><h2><a name="uninstall"></a>Uninstalling</h2>
+
+<ol>
+	<li>Delete all the files that came with the CCorr distribution package</li>
+	<li>Delete the <code>.ccorr.cfg</code> file in your user home directory (e.g. <code>C:\Documents and Settings\Username\</code> on Windows NT/2000/XP, <code>/home/username/</code> on Unix/Linux) to remove all saved settings</li>
+</ol>
+
+
+
+	<hr /><h2><a name="howto"></a>How To Use</h2>
+
+
+
+	<h3>Main Window</h3>
+
+<p>In the top are the menus and the icons for some actions. Hold your mouse over the icons for a tool tip text. In the middle are the program's windows opened on separate tabs. Click on the tabs to move between different views. Then you start the program, there will be one empty comparison opened. When the program is closed, you will be prompted for any unsaved modifications you have made.</p>
+
+<p align="center"><img src="images/comparison_empty.gif" alt="What Corruption Corrector looks like when started" />
+<br /><i>What Corruption Corrector looks like when started</i></p>
+
+
+
+	<h3>Menu Options</h3>
+
+<ul>
+	<li><b>File \ New Comparison:</b>
+	Opens an empty Comparison to a new tab.</li>
+	
+	<li><b>File \ Open Comparison:</b>
+	Loads a previously saved Comparison from a .CCP file.</li>
+	
+	<li><b>File \ Create Checksum File:</b>
+	Opens the view for creating .CCF files out of any files that need to be fixed to a new tab.</li>
+	
+	<li><b>File \ Close:</b>
+	Closes the currenty selected tab.</li>
+	
+	<li><b>File \ Save Comparison:</b>
+	Saves any modifications made to the currently selected Comparison.</li>
+	
+	<li><b>File \ Save Comparison As:</b>
+	Saves the currently selected Comparison to a new .CCP file.</li>
+	
+	<li><b>File \ Exit:</b>
+	Closes the program.
+	
+	<br />&nbsp;</li>
+	
+	<li><b>Edit \ Mark Good:</b>
+	Marks the currently selected part in a Comparison as "good" (colored green)</li>
+	
+	<li><b>Edit \ Mark Bad:</b>
+	Marks the currently selected part in a Comparison as "bad" (colored red)</li>
+	
+	<li><b>Edit \ Mark Unsure:</b>
+	Marks the currently selected part in a Comparison as "unsure" (colored yellow)</li>
+	
+	<li><b>Edit \ Mark Undefined:</b>
+	Clears any previous mark in the currently selected part in a Comparison (no color)</li>
+	
+	<li><b>Edit \ Next Marker:</b>
+	Changes the selected part's mark to the next one in turn (equals right-clicking a cell)</li>
+</ul>
+
+
+
+	<h3>Creating Checksum Files</h3>
+
+<p>Open the Create Checksum File view and choose an input file - a file that needs to be fixed - by using the related browse button. The checksum file (.CCF) will be by default created to the same folder as the input file. You can directly make the checksum file part of a comparison project by selecting it from the dropdown menu.</p>
+
+<p>Finally click the Create Checksum File button at the bottom of the screen and the program will start reading the input file. Depending the speed of your computer, this can take some while (a progress bar and a cancel button will appear). You can close the view with the Close button.</p>
+
+<p align="center"><img src="images/create_checksum_file.gif" alt="The Create Checksum File -view" />
+<br /><i>The Create Checksum File -view</i></p>
+
+
+
+	<h3>Comparing Files</h3>
+
+<p>Create a new comparison or load a previously saved from a file. Use the Add Checksum File button to add .CCF files to the comparison once you have created them.</p>
+
+<p>The rows represent those parts of the compared files that include differences between two or more of the files. The first column shows the position as a part number (one part is usually 16KB) or the byte offsets. You can change the view by right-clicking the numbers in the first column. The other columns represent the files that are being compared. In each cell reads the checksum of that particular part.</p>
+
+<p>You can change the markers by right-clicking each checksum or by selecting the cell and choosing an option from the Edit menu. To be able to write an output file, there needs to be at least one part marked <cite>good</cite> (green color) in each row. Corrupted parts should be marked <cite>bad</cite> (red color) and parts that you are not sure about should be marked <cite>unsure</cite> (yellow color). And about locating the corruptions... I'll write an article about that someday.</p>
+
+<p>Once the uncorrupted parts are marked, you can click the Write Output button, and the program will combine the files and write a new file after prompting for the location. This operation can take some time depending on the speed of your computer (a progress bar and a cancel button will appear). You can close the comparison with the Close button.</p>
+
+<p align="center"><img src="images/comparison_example1.gif" alt="Example of a Comparison" />
+<br /><i>Example of a Comparison</i></p>
+
+
+
+	<hr /><h2><a name="errors"></a>Error Messages</h2>
+
+<table border="1" cellspacing="0" cellpadding="3">
+<tr>
+	<th>Message</th>
+	<th>When</th>
+	<th>Possible Reasons</th>
+</tr>
+<tr>
+	<td>A valid file needs to be selected.</td>
+	<td>When choosing an input file in the CCF screen</td>
+	<td>The file you tried to select was not a file.</td>
+</tr>
+<tr>
+	<td>An error happened in making the Checksum File.</td>
+	<td>When creating a CCF file</td>
+	<td>The program was unable to read the input file or the operation was cancelled.</td>
+</tr>
+<tr>
+	<td>It is not possible to create a good output file. More good parts are needed.</td>
+	<td>After pressing Write Output in a comparison</td>
+	<td>Each row in a comparison table must have at least one <cite>good</cite> part (green). Mark more parts as <cite>good</cite>.</td>
+</tr>
+<tr>
+	<td>The file &lt;filename&gt; was not recognized as a valid CCorr Checksum File.</td>
+	<td>Adding a checksum file to a comparison</td>
+	<td>The file you tried to open was made with a different CCorr or Java version, or it is a completely unrelated file.</td>
+</tr>
+<tr>
+	<td>The file &lt;filename&gt; was not recognized as a valid CCorr Comparison Project.</td>
+	<td>When opening a saved comparison</td>
+	<td>The file you tried to open was made with a different CCorr or Java version, or it is a completely unrelated file.</td>
+</tr>
+<tr>
+	<td>The input file &lt;filename&gt; can not be read.</td>
+	<td>When creating a CCF file</td>
+	<td>The input file either does not exists or you do not have reading permissions.</td>
+</tr>
+<tr>
+	<td>There was an error in writing the file &lt;filename&gt;.</td>
+	<td>(many places)</td>
+	<td>Make sure that you have read/write permissions to the files, there is enough free space on the drive.</td>
+</tr>
+<tr>
+	<td>Unable to write the output file.</td>
+	<td>When creating a CCF file</td>
+	<td>You do not have writing permissions, the file is not valid, or some other error.</td>
+</tr>
+<!--
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+-->
+</table>
+
+
+
+	<hr /><h2><a name="version"></a>Version History</h2>
+
+<dl>
+	<dt>v1.0 (2003-02-17)</dt>
+	<dd>+ The first release</dd>
+</dl>
+
+
+
+	<hr /><h2><a name="coming"></a>Upcoming Features</h2>
+
+<p><cite>"When they are ready."</cite></p>
+
+<ul>
+	<li>Removing checksum files from a comparison ^_^;;</li>
+	<li>About dialog</li>
+	<li>Settings window (for part size, checksum algorithm etc.)</li>
+	<li>Calculating the output file's checksum without writing the file (GUI missing)</li>
+	<li>Calculating the checksums and/or writing of all possible output files, when there are not enough good parts (GUI missing)</li>
+	<li>Notepad for each comparison</li>
+	<li>Browsing a CCF file's checksums and viewing/changing other preferences</li>
+	<li>Name for each comparison</li>
+	<li>Saving the files in compressed XML format to avoid compatibility problems after version changes</li>
+	<li>When many successive parts are corrupt, showing those parts in just one row (subclass for ComparisonItem?)</li>
+	<li>TabPanel.isModified(), TabPanel.forceFocus(boolean)</li>
+<!--
+	<li></li>
+-->
+</ul>
+
+
+
+	<hr /><h2><a name="license"></a>License</h2>
+
+<pre>Copyright (C) 2003 Esko Luontola, esko.luontola@cs.helsinki.fi
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.</pre>
+
+
+
+<hr />
+</body>
+</html>

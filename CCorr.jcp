@@ -1,0 +1,86 @@
+! ** JCreator Project File (C)2000
+! ********** DO NOT EDIT *********
+
+VERSION := "1.10"
+LABEL := "CCorr"
+JDKPROFILE := "Java 2 SDK, SE v1.4.1_01"
+ACTIVE := "1"
+OUTPUTPATH := "\\bin"
+COMPILER := "Optimized"
+
+! Start RunTime Configuration Structure
+#[BeginRunTime]LABEL := "<Default>" RUNAPPLIC := "<Default>" RUNAPPLET := "" PARAM := "" RUN := "Main" CHECK := "10" #[EndRunTime]
+! Start Required Libraries Structure
+
+! Start Project Folder Structure
+#[BeginFolder]
+LABEL := "Root"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\Main.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\Lue.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\Debug.java" #[EndFile]
+#[BeginFolder]
+LABEL := "util"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\util\\SwingWorker.java" #[EndFile]
+#[EndFolder]
+#[BeginFolder]
+LABEL := "fi.helsinki.cs.luontola.ccorr"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ComparisonItem.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Comparison.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\FileCombination.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Settings.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ChecksumFile.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\CRC.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Log.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ObjectSaver.java" #[EndFile]
+#[EndFolder]
+#[BeginFolder]
+LABEL := "jonelo.jacksum.algorithm"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\AbstractChecksum.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\MD.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Sum.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\SumSysV.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Service.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Crc32.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Crc16.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Cksum.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Adler32.java" #[EndFile]
+#[EndFolder]
+#[BeginFolder]
+LABEL := "jonelo.jacksum"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\Jacksum.java" #[EndFile]
+#[EndFolder]
+#[BeginFolder]
+LABEL := "jonelo.sugar.util"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\jonelo\\sugar\\util\\GeneralString.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\sugar\\util\\GeneralProgram.java" #[EndFile]
+#[EndFolder]
+#[BeginFolder]
+LABEL := "fi.helsinki.cs.luontola.ccorr.gui"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonItemRenderer.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\TabPanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\GeneralFileFilter.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonTableModel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\MainWindow.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\Default.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonPanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\SettingsPanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\CreateChecksumFilePanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ChecksumFilePanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\NotepadWindow.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\CreatePossibilitiesPanel.java" #[EndFile]
+#[EndFolder]
+#[EndFolder]
