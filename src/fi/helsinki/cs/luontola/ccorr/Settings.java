@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
+ * Copyright (C) 2003-2005  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -35,8 +35,8 @@ public class Settings implements Serializable {
     
     public static final String APP_NAME = "Corruption Corrector";
     public static final String APP_NAME_SHORT = "CCorr";
-    public static final String VERSION_NUMBER = "1.01";
-    public static final String COPYRIGHT = "Copyright (C) 2003-2004  Esko Luontola";
+    public static final String VERSION_NUMBER = "1.02";
+    public static final String COPYRIGHT = "Copyright (C) 2003-2005  Esko Luontola";
     public static final String WEBSITE = "http://ccorr.sourceforge.net";
     
     /**

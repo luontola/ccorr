@@ -3,13 +3,13 @@
 
 VERSION := "1.10"
 LABEL := "CCorr"
-JDKPROFILE := "j2sdk1.4.2_04"
+JDKPROFILE := "JDK version 1.5.0_01"
 ACTIVE := "1"
 OUTPUTPATH := "\\bin"
 COMPILER := "<Default>"
 
 ! Start RunTime Configuration Structure
-#[BeginRunTime]LABEL := "<Default>" RUNAPPLIC := "<Default>" RUNAPPLET := "<Default>" PARAM := "" RUN := "Main" CHECK := "10" #[EndRunTime]
+#[BeginRunTime]LABEL := "<Default>" RUNAPPLIC := "<Default>" RUNAPPLET := "<Default>" RUNDEBUG := "<Default>" PARAM := "" RUN := "Main" CHECK := "10" #[EndRunTime]
 ! Start Required Libraries Structure
 
 ! Start Project Folder Structure
@@ -19,52 +19,31 @@ FILTER := ""
 
 #[BeginFile]SOURCE := "\\src\\Main.java" #[EndFile]
 #[BeginFolder]
-LABEL := "images"
+LABEL := "fi.helsinki.cs.luontola.ccorr"
 FILTER := ""
 
-#[BeginFile]SOURCE := "\\src\\images\\logo.gif" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\images\\saveas.gif" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\images\\save.gif" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\images\\close.gif" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\images\\open.gif" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\images\\new.gif" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ComparisonItem.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Comparison.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\FileCombination.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Settings.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ChecksumFile.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\CRC.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Log.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ObjectSaver.java" #[EndFile]
 #[EndFolder]
 #[BeginFolder]
-LABEL := "help"
+LABEL := "jonelo.jacksum.algorithm"
 FILTER := ""
 
-#[BeginFile]SOURCE := "\\src\\help\\commands.html" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\help\\tutorial.html" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\help\\index.html" #[EndFile]
-#[EndFolder]
-#[BeginFolder]
-LABEL := "fi.helsinki.cs.luontola.ccorr.gui"
-FILTER := ""
-
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\HelpDialog.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\CreateChecksumsFileChooser.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\Default.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\MainToolBar.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\MainMenuBar.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonHeaderPopupMenu.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\CreatePossibilitiesPanel.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\NotepadWindow.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ChecksumFilePanel.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\SettingsPanel.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonPanel.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\MainWindow.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonTableModel.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\GeneralFileFilter.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\TabPanel.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonItemRenderer.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\AboutDialog.java" #[EndFile]
-#[EndFolder]
-#[BeginFolder]
-LABEL := "jonelo.sugar.util"
-FILTER := ""
-
-#[BeginFile]SOURCE := "\\src\\jonelo\\sugar\\util\\GeneralProgram.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\sugar\\util\\GeneralString.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\AbstractChecksum.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\MD.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Sum.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\SumSysV.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Service.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Crc32.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Crc16.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Cksum.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Adler32.java" #[EndFile]
 #[EndFolder]
 #[BeginFolder]
 LABEL := "jonelo.jacksum"
@@ -73,30 +52,51 @@ FILTER := ""
 #[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\Jacksum.java" #[EndFile]
 #[EndFolder]
 #[BeginFolder]
-LABEL := "jonelo.jacksum.algorithm"
+LABEL := "jonelo.sugar.util"
 FILTER := ""
 
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Adler32.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Cksum.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Crc16.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Crc32.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Service.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\SumSysV.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\Sum.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\MD.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\jonelo\\jacksum\\algorithm\\AbstractChecksum.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\sugar\\util\\GeneralString.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\jonelo\\sugar\\util\\GeneralProgram.java" #[EndFile]
 #[EndFolder]
 #[BeginFolder]
-LABEL := "fi.helsinki.cs.luontola.ccorr"
+LABEL := "fi.helsinki.cs.luontola.ccorr.gui"
 FILTER := ""
 
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ObjectSaver.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Log.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\CRC.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ChecksumFile.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Settings.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\FileCombination.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\Comparison.java" #[EndFile]
-#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\ComparisonItem.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\AboutDialog.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonItemRenderer.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\TabPanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\GeneralFileFilter.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonTableModel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\MainWindow.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonPanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\SettingsPanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ChecksumFilePanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\NotepadWindow.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\CreatePossibilitiesPanel.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\ComparisonHeaderPopupMenu.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\MainMenuBar.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\MainToolBar.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\Default.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\CreateChecksumsFileChooser.java" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\fi\\helsinki\\cs\\luontola\\ccorr\\gui\\HelpDialog.java" #[EndFile]
+#[EndFolder]
+#[BeginFolder]
+LABEL := "help"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\help\\index.html" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\help\\tutorial.html" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\help\\commands.html" #[EndFile]
+#[EndFolder]
+#[BeginFolder]
+LABEL := "images"
+FILTER := ""
+
+#[BeginFile]SOURCE := "\\src\\images\\new.gif" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\images\\open.gif" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\images\\close.gif" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\images\\save.gif" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\images\\saveas.gif" #[EndFile]
+#[BeginFile]SOURCE := "\\src\\images\\logo.gif" #[EndFile]
 #[EndFolder]
 #[EndFolder]

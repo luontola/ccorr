@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
+ * Copyright (C) 2003-2005  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -38,13 +38,23 @@ public class CreateChecksumsFileChooser extends JFileChooser {
 	private JComboBox algorithmField;
 	
 	public CreateChecksumsFileChooser() {
-		JPanel originalBottom = (JPanel)this.getComponent(2);
-		this.remove(originalBottom);
+		initAlgorithmInputField();
+		initPartLengthInputField();
+	}
+	
+	protected JDialog createDialog(Component parent) throws HeadlessException {
+		JDialog dialog = super.createDialog(parent);
+		Container origCP = dialog.getContentPane();
+		JPanel newCP = new JPanel(new BorderLayout(0, 0));
 		
-		Box newBottom = Box.createVerticalBox();
-		newBottom.add(originalBottom);
-		newBottom.add(createExtraButtons());
-		this.add(newBottom, "South");
+		newCP.add(origCP, "Center");
+		newCP.add(createExtraButtons(), "South");
+		dialog.setContentPane(newCP);
+		
+		Dimension d = dialog.getSize();
+		dialog.setSize((int)d.getWidth(), (int)d.getHeight() + 70);
+		
+		return dialog;
 	}
 	
 	private JComponent createExtraButtons() {
@@ -54,28 +64,26 @@ public class CreateChecksumsFileChooser extends JFileChooser {
 		layout.setVgap(0);
 		
 		JPanel p = new JPanel(layout);
-		p.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
+		p.setBorder(BorderFactory.createEmptyBorder(0, 12, 12, 12));
 		
 		p.add(new JLabel("Part Length:  "));
-		p.add(createPartLengthInputField());
+		p.add(partLengthField);
 		p.add(new JLabel(" KB"));
 		
 		p.add(Box.createRigidArea(new Dimension(20, 10)));
 		
 		p.add(new JLabel("Algorithm:  "));
-		p.add(createAlgorithmInputField());
+		p.add(algorithmField);
 		
 		return p;
 	}
 	
-	private JComponent createAlgorithmInputField() {
+	private void initAlgorithmInputField() {
 		algorithmField = new JComboBox(CRC.getSupportedAlgorithms());
 		algorithmField.setSelectedItem(Settings.getDefaultAlgorithm());
-		
-		return algorithmField;
 	}
 	
-	private JComponent createPartLengthInputField() {
+	private void initPartLengthInputField() {
 		NumberFormatter formatter = new NumberFormatter();
 		formatter.setMinimum(new Integer(ChecksumFile.MIN_PART_SIZE / 1024));
 		formatter.setMaximum(new Integer(ChecksumFile.MAX_PART_SIZE / 1024));
@@ -83,8 +91,6 @@ public class CreateChecksumsFileChooser extends JFileChooser {
 		partLengthField = new JFormattedTextField(formatter);
 		partLengthField.setValue(new Integer(Settings.getDefaultPartLength() / 1024));
 		partLengthField.setColumns(5);
-		
-		return partLengthField;
 	}
 	
 	public void setAlgorithm(String algorithm) {

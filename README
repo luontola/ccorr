@@ -26,7 +26,7 @@ Web site: http://ccorr.sourceforge.net/
 
  ### System Requirements ###
 
-- Java 1.4 JRE or later from http://java.sun.com/
+- J2SE Runtime Environment 5.0 or later from http://java.sun.com/
 - Enough free hard drive space for the output files
 
 
@@ -52,7 +52,7 @@ Delete the .ccorr.cfg file in your user home directory (e.g.
 
  ### License ###
 
-Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
+Copyright (C) 2003-2005  Esko Luontola, http://ccorr.sourceforge.net
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

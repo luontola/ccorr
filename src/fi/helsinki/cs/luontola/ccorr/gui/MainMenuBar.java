@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
+ * Copyright (C) 2003-2005  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -109,7 +109,8 @@ public class MainMenuBar extends JMenuBar {
         menu.addSeparator();
         
         menuItem = new JMenuItem("Exit", KeyEvent.VK_X);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+        //menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
         menuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 parent.exitProgram();

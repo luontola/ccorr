@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
+ * Copyright (C) 2003-2005  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -109,9 +109,9 @@ public class Comparison implements Serializable {
      * the comparison data.
      */
     public void doCompare() {
-        Vector partsThatDiffer = new Vector();
+        Vector<Integer> partsThatDiffer = new Vector<Integer>();
         int[][] numberOfDifferences = new int[files.length][files.length];
-        Vector filesToBeMirrored = new Vector();
+        Vector<Integer> filesToBeMirrored = new Vector<Integer>();
         
         if (files.length > 1) {
             
@@ -748,7 +748,7 @@ item:   for (int item = 0; item < this.items.length; item++) {
         for (int i = 0; i < fc.length; i++) {
             fc[i] = new FileCombination();
         }
-        Vector possibleFiles = new Vector();
+        Vector<Integer> possibleFiles = new Vector<Integer>();
         int goodFile;
         int combinationsDone = 1;
         long nextStart = 0;
@@ -998,7 +998,7 @@ item:   for (int item = 0; item < this.items.length; item++) {
          * isUnsure     decides whether MARK_IS_GOOD or MARK_IS_UNSURE should be set
          */
         for (int row = start; row <= end; row++) {
-            Hashtable ht = new Hashtable();
+            Hashtable<String,Integer> ht = new Hashtable<String,Integer>();
             int max = 1;
             int maxIndex = -1;
             boolean isUnsure = false;

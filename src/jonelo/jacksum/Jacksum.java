@@ -83,8 +83,8 @@ public class Jacksum {
       File file = new File(dirItem);
       if (file.isDirectory()) {
           System.out.println("\n"+file+":");
-          Vector vd = new Vector();
-          Vector vf = new Vector();
+          Vector<Object> vd = new Vector<Object>();
+          Vector<Object> vf = new Vector<Object>();
           list = file.list();
           Arrays.sort(list,String.CASE_INSENSITIVE_ORDER);          
           

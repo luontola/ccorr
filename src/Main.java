@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003-2004 Esko Luontola, esko.luontola@cs.helsinki.fi
+ * Copyright (C) 2003-2005 Esko Luontola, esko.luontola@cs.helsinki.fi
  *
  * This file is part of Corruption Corrector (CCorr).
  *

@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
+ * Copyright (C) 2003-2005  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -45,27 +45,27 @@ public class FileCombination {
      * The files of the items. The <code>Vector</code>'s 
      * all items are <code>instanceof File</code>.
      */
-    private Vector file; // File
+    private Vector<File> file;
     
     /**
      * The start offsets of the items. The <code>Vector</code>'s 
      * all items are <code>instanceof Long</code>.
      */
-    private Vector startOffset; // Long
+    private Vector<Long> startOffset;
     
     /**
      * The end offsets of the items. The <code>Vector</code>'s 
      * all items are <code>instanceof Long</code>.
      */
-    private Vector endOffset; // Long
+    private Vector<Long> endOffset;
     
     /**
      * Creates a new <code>FileCombination</code> with no items.
      */
     public FileCombination() {
-        this.file = new Vector();
-        this.startOffset = new Vector();
-        this.endOffset = new Vector();
+        this.file = new Vector<File>();
+        this.startOffset = new Vector<Long>();
+        this.endOffset = new Vector<Long>();
     }
     
     /**
@@ -344,12 +344,12 @@ public class FileCombination {
         }
         
         for (int item = 0; item < fc[0].getItems(); item++) {
-            Vector readFiles = new Vector();
+            Vector<File> readFiles = new Vector<File>();
             for (int i = 0; i < fc.length; i++) {
                 if (!readFiles.contains(fc[i].getFile(item))) {     // if the file hasn't been read before
                     
                     // select all checksums that can be read from the same file
-                    Vector selectedCrcs = new Vector();
+                    Vector<CRC> selectedCrcs = new Vector<CRC>();
                     for (int j = 0; j < fc.length; j++) {
                         if (fc[j].getFile(item) == fc[i].getFile(item)) {
                             selectedCrcs.add(crc[j]);

@@ -2,6 +2,10 @@
     Corruption Corrector
 
 
+Version 1.02 (5.1.2005)
+     BUGFIX:  Made the program compatible with JRE 1.5
+     CHANGE:  The shortcut for quiting the program is now CTRL+Q
+
 Version 1.01 (1.7.2004)
     FEATURE:  Removing a file from the comparison by right clicking 
               the column header (thanks Harald Judt)
@@ -23,12 +27,10 @@ Version 1.01 (1.7.2004)
               the part length are 1 KB and 100 MB
     FEATURE:  About dialog
     FEATURE:  Help files
-              
      CHANGE:  The CCF files are now created using the "Add File" 
               button and not anymore through a special page
      CHANGE:  The keyboard shortcuts for Mark Good..Undefined were
               changed from ALT+1..4 to 1..4
-              
        NOTE:  The CCP and CCF files made with previous versions are 
               not compatible with this version
 

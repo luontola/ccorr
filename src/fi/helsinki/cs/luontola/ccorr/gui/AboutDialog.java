@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2003-2004  Esko Luontola, http://ccorr.sourceforge.net
+ * Copyright (C) 2003-2005  Esko Luontola, http://ccorr.sourceforge.net
  *
  * This file is part of Corruption Corrector (CCorr).
  *
@@ -45,7 +45,7 @@ public class AboutDialog extends JDialog {
 		
 		pack();
 		positionWindows(parent, this);
-		show();
+		setVisible(true);
 	}
 	
 	private void positionWindows(Window parent, Window child) {
@@ -88,7 +88,7 @@ public class AboutDialog extends JDialog {
 	}
 	
 	private void close() {
-		hide();
+		setVisible(false);
 		dispose();
 	}
     
