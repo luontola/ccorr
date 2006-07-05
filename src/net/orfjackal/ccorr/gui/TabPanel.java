@@ -18,16 +18,34 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+package net.orfjackal.ccorr.gui;
+
 import net.orfjackal.ccorr.Log;
-import net.orfjackal.ccorr.gui.MainWindow;
+
+import javax.swing.*;
 
 /**
- * Starts Corruption Corrector
+ * The common properties of a <code>JTabbedPane</code> item.
+ *
+ * @author Esko Luontola
  */
-public class Main {
-    public static void main(String[] args) {
-        Log.print("Corruption Corrector: Starting");
-        MainWindow.main(args);
-        Log.println("Corruption Corrector: Started");
+public abstract class TabPanel extends JPanel {
+
+    /**
+     * Removes this object from the JTabbedPane. Override this method if you need to do something before the tab is
+     * removed or you want to cancel closing the tab.
+     *
+     * @return true if this.getParent() is a JTabbedPane, otherwise false.
+     */
+    public boolean close() {
+        if (this.getParent() instanceof JTabbedPane) {
+            JTabbedPane parent = (JTabbedPane) (this.getParent());
+            parent.remove(this);
+            return true;
+        } else {
+            Log.println("TabPanel.close(): Aborted, parent of " + this + " is " + this.getParent());
+            return false;
+        }
     }
+
 }

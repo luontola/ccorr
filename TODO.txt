@@ -1,0 +1,49 @@
+
+	Corruption Corrector
+	TODO-list
+
+
+Updated: 6.7.2006
+
+- Create CCorr-specific file format for projects instead of using 
+  ObjectOutputStream to avoid compatibility issues between class versions.
+
+- The program can't handle files which are moved or renamed. Fix this when 
+  creating the new file format.
+
+- Do not forget the markers (and comments) even if all files are removed from
+  the project.
+
+- Group adjacent differences together to one block in the table, with an option
+  to expand the group.
+
+- Logging to file.
+
+- When a progress bar is running, prevent the user from clicking other buttons,
+  so as to prevent something from breaking. How to make the dialog modal?
+
+- Find out what I had in mind when I created ChecksumFilePanel, 
+  CreatePossibilitiesPanel, NotepadWindow and SettingsPanel ;). Probably 
+  ChecksumFilePanel is for viewing the checksums of all parts in a file (not 
+  needed), CreatePossibilitiesPanel is for automatic finding of the right 
+  combination (might be useful if the checksum of the good file is known), 
+  NotepadWindow is for making notes about the current project (per-part notes 
+  would be useful) and SettingsPanel for adjusting some global settings (not 
+  that there were any to adjust).
+
+- Code cleanup (?)
+
+
+Here's the TODO list from version 1.0 (back in 2003) just in case I forgot something:
+
+# Removing checksum files from a comparison ^_^;;
+# About dialog
+# Settings window (for part size, checksum algorithm etc.)
+# Calculating the output file's checksum without writing the file (GUI missing)
+# Calculating the checksums and/or writing of all possible output files, when there are not enough good parts (GUI missing)
+# Notepad for each comparison
+# Browsing a CCF file's checksums and viewing/changing other preferences
+# Name for each comparison
+# Saving the files in compressed XML format to avoid compatibility problems after version changes
+# When many successive parts are corrupt, showing those parts in just one row (subclass for ComparisonItem?)
+# TabPanel.isModified(), TabPanel.forceFocus(boolean)
