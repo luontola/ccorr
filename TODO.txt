@@ -3,7 +3,25 @@
 	TODO-list
 
 
-Updated: 6.7.2006
+>> 8.7.2006
+
+- When writing the output, verify that the checksums of the input parts are the 
+  same as when they were read the first time.
+
+
+>> 7.7.2006
+
+- If the program runs out of memory when saving a large project, the user gets 
+  no error message about it. The program anyways does not close, but stays open. 
+  Command line shows the error:
+
+  Exception in thread "AWT-EventQueue-0" java.lang.OutOfMemoryError: Java heap space
+
+- Optimize the memory usage, maybe by using the same String instances in all the 
+  files of the comparison (if equals() is true but == is false)
+
+
+>> 6.7.2006
 
 - Create CCorr-specific file format for projects instead of using 
   ObjectOutputStream to avoid compatibility issues between class versions.

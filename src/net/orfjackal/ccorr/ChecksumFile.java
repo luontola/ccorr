@@ -103,6 +103,7 @@ public class ChecksumFile implements Serializable {
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
+        // TODO: write as the first object an Integer which tells the version of the file, so that importing old versions would be possible
         out.writeObject(checksums);
         out.writeObject(usedAlgorithm);
         out.writeLong(partLength);

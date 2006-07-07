@@ -25,6 +25,9 @@ import net.orfjackal.ccorr.gui.MainWindow;
  * Starts Corruption Corrector
  */
 public class Main {
+
+    // TODO: redirect stdout and stderr to file (CCorr.log, overwrite if exists)
+
     public static void main(String[] args) {
         Log.print("Corruption Corrector: Starting");
         MainWindow.main(args);
