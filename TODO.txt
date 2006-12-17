@@ -3,6 +3,17 @@
 	TODO-list
 
 
+>> 17.12.2006 (JRE 6)
+
+- BUG: Open a existing project file, modify it, save/close the file -> the 
+  program prompts for a new file name. EXPECTED: the file is saved with the same 
+  name without prompting.
+
+- BUG: Select save as, enter as file name "foo" without the ".ccp" file 
+  extension -> the file is saved as "foo". EXPECTED: the file is saved as 
+  "foo.ccp".
+
+
 >> 8.7.2006
 
 - When writing the output, verify that the checksums of the input parts are the 
