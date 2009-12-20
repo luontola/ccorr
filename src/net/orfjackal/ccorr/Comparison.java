@@ -730,7 +730,7 @@ public class Comparison implements Serializable {
      * @return an array containing the combinations, or null if updating is needed or if there are no files
      */
     public FileCombination[] createPossibleCombinations() {
-        // TODO: optimoi countChecksumsia silmällä pitäen, eli luetaan mahdollisimman paljon samasta tiedostosta
+        // TODO: optimize with countChecksums in mind, i.e. read as much as possible from the same file
 
         Log.print("createPossibleCombinations: Start");
         if (this.needsUpdating) {
