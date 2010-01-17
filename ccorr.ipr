@@ -282,7 +282,12 @@
     <option name="projectName" value="ccorr" />
   </component>
   <component name="ProjectDictionaryState">
-    <dictionary name="ORFJackal" />
+    <dictionary name="ORFJackal">
+      <words>
+        <w>checksum</w>
+        <w>checksums</w>
+      </words>
+    </dictionary>
   </component>
   <component name="ProjectModuleManager">
     <modules>
@@ -383,17 +388,6 @@
     <find-history />
   </component>
   <component name="libraryTable">
-    <library name="Maven: junit:junit:4.7">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.easymock:easymock:2.5.2">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/easymock/easymock/2.5.2/easymock-2.5.2.jar!/" />
@@ -405,15 +399,26 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/easymock/easymock/2.5.2/easymock-2.5.2-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.mockito:mockito-all:1.8.0">
+    <library name="Maven: org.mockito:mockito-all:1.8.2">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.2/mockito-all-1.8.2.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.2/mockito-all-1.8.2-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.0/mockito-all-1.8.0-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/mockito/mockito-all/1.8.2/mockito-all-1.8.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: junit:junit:4.7">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/4.7/junit-4.7-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
