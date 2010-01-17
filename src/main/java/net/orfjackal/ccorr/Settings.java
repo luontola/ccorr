@@ -32,7 +32,7 @@ public class Settings implements Serializable {
     /**
      * The maximum buffer length to be used for reading and writing files.
      */
-    public static final int MAX_BUFFER_LENGTH = 5 * 1024 * 1024;    // 5 MB
+    public static final int MAX_BUFFER_LENGTH = 10 * 1024 * 1024;    // 10 MB
 
     /**
      * An instance of this class. The settings that need to be saved between program sessions are stored in an object so
@@ -59,12 +59,12 @@ public class Settings implements Serializable {
     /**
      * Buffer length for <code>InputStream</code>s
      */
-    private int readBufferLength = 512 * 1024;      // 0.5 MB
+    private int readBufferLength = 1024 * 1024;      // 1 MB
 
     /**
      * Buffer length for <code>OutpuStream</code>s
      */
-    private int writeBufferLength = 2 * 1024 * 1024;     // 2 MB
+    private int writeBufferLength = 1024 * 1024;     // 1 MB
 
     /**
      * Whether mark mirroring is enabled.

@@ -21,7 +21,7 @@ public class FileCombination {
     /**
      * Size of the buffer for transferring data between input and output.
      */
-    private static final int BUFFER_LENGTH = 10240;
+    public static final int BUFFER_LENGTH = 1024 * 1024;
 
     /**
      * The files of the items. The <code>Vector</code>'s all items are <code>instanceof File</code>.
