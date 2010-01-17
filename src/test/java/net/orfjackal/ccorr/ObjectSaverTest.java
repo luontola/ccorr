@@ -13,18 +13,18 @@ import java.io.*;
  */
 public class ObjectSaverTest extends Assert {
 
+    private final TempDirectory temp = new TempDirectory();
     private File file;
 
     @Before
     public void createFile() throws IOException {
-        file = File.createTempFile(getClass().getName(), null);
+        temp.create();
+        file = new File(temp.getDirectory(), "file.tmp");
     }
 
     @After
     public void deleteFile() {
-        if (!file.delete()) {
-            file.deleteOnExit();
-        }
+        temp.dispose();
     }
 
     @Test
