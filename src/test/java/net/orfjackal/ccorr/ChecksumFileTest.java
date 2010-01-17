@@ -9,6 +9,7 @@ import org.junit.*;
 import javax.swing.*;
 import java.io.*;
 
+import static net.orfjackal.ccorr.TestDataUtil.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -16,56 +17,22 @@ import static org.mockito.Mockito.*;
  */
 public class ChecksumFileTest extends Assert {
 
-    private static final String ALGORITHM = "CRC-32";
-    private static final int PART_LENGTH = 1024;
-    private static final int START_OFFSET_0 = 0;
-    private static final int START_OFFSET_1 = PART_LENGTH;
-    private static final int START_OFFSET_2 = PART_LENGTH * 2;
-    private static final int END_OFFSET_0 = START_OFFSET_1 - 1;
-    private static final int END_OFFSET_1 = START_OFFSET_2 - 1;
-
-    private final TempDirectory temp = new TempDirectory();
-    private int nextFileId = 1;
+    private TestDataUtil util = new TestDataUtil();
 
     @Before
-    public void createFile() throws IOException {
-        temp.create();
+    public void initUtil() throws IOException {
+        util.create();
     }
 
     @After
-    public void deleteFile() {
-        temp.dispose();
-    }
-
-    private ChecksumFile createChecksumFile(int length) throws IOException {
-        File file = createDummyFile(length);
-        return ChecksumFile.createChecksumFile(file, PART_LENGTH, ALGORITHM);
-    }
-
-    private File createDummyFile(int length) throws IOException {
-        File file = uniqueFile();
-        writeDummyData(file, length);
-        return file;
-    }
-
-    private File uniqueFile() {
-        File file = new File(temp.getDirectory(), "file" + nextFileId + ".tmp");
-        nextFileId++;
-        return file;
-    }
-
-    private static void writeDummyData(File file, int length) throws IOException {
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-        for (int i = 0; i < length; i++) {
-            out.write(i);
-        }
-        out.close();
+    public void disposeUtil() {
+        util.dispose();
     }
 
     @Test
     public void calculates_the_checksum_for_all_parts() throws IOException {
         int parts = 2;
-        ChecksumFile cf = createChecksumFile(PART_LENGTH * parts);
+        ChecksumFile cf = util.createChecksumFile(PART_LENGTH * parts);
 
         assertEquals(parts, cf.getParts());
 
@@ -82,7 +49,7 @@ public class ChecksumFileTest extends Assert {
     public void last_part_can_be_shorter() throws IOException {
         int parts = 2;
         int shorter = 100;
-        ChecksumFile cf = createChecksumFile(PART_LENGTH * parts - shorter);
+        ChecksumFile cf = util.createChecksumFile(PART_LENGTH * parts - shorter);
 
         assertEquals(parts, cf.getParts());
         assertEquals("B70B4C26", cf.getChecksum(0));
@@ -98,7 +65,7 @@ public class ChecksumFileTest extends Assert {
     public void trying_to_get_a_part_from_too_high_index_returns_an_error_value() throws IOException {
         int parts = 2;
         int tooHighIndex = 2;
-        ChecksumFile cf = createChecksumFile(PART_LENGTH * parts);
+        ChecksumFile cf = util.createChecksumFile(PART_LENGTH * parts);
 
         assertTrue(cf.getParts() >= parts);
         assertEquals(null, cf.getChecksum(tooHighIndex));
@@ -111,7 +78,7 @@ public class ChecksumFileTest extends Assert {
         ProgressMonitor monitor = spy(new ProgressMonitor(null, null, null, 0, 0));
 
         Settings.setProgressMonitor(monitor);
-        createChecksumFile(PART_LENGTH * 4);
+        util.createChecksumFile(PART_LENGTH * 4);
 
         verify(monitor).setMinimum(0);
         verify(monitor).setMaximum(100);
@@ -129,9 +96,9 @@ public class ChecksumFileTest extends Assert {
 
     @Test
     public void can_be_saved_to_a_file_and_loaded_from_it() throws IOException {
-        ChecksumFile original = createChecksumFile(PART_LENGTH * 2);
+        ChecksumFile original = util.createChecksumFile(PART_LENGTH * 2);
 
-        File tmp = uniqueFile();
+        File tmp = util.uniqueFile();
         original.saveToFile(tmp);
         ChecksumFile loaded = ChecksumFile.loadFromFile(tmp);
 
@@ -146,8 +113,8 @@ public class ChecksumFileTest extends Assert {
     @Test
     public void the_source_file_can_be_relocated_if_the_file_size_is_the_same() throws IOException {
         int length = PART_LENGTH * 2;
-        ChecksumFile cf = createChecksumFile(length);
-        File moved = createDummyFile(length);
+        ChecksumFile cf = util.createChecksumFile(length);
+        File moved = util.createDummyFile(length);
 
         cf.setSourceFile(moved);
 
@@ -157,9 +124,9 @@ public class ChecksumFileTest extends Assert {
     @Test
     public void the_source_file_can_not_be_relocated_if_the_file_size_is_not_the_same() throws IOException {
         int length = PART_LENGTH * 2;
-        ChecksumFile cf = createChecksumFile(length);
+        ChecksumFile cf = util.createChecksumFile(length);
         File original = cf.getSourceFile();
-        File moved = createDummyFile(length - 1);
+        File moved = util.createDummyFile(length - 1);
 
         cf.setSourceFile(moved);
 
