@@ -32,13 +32,17 @@ public class TestDataUtil {
         temp.dispose();
     }
 
-    public ChecksumFile createChecksumFile(int length, int... corruptedOffsets) throws IOException {
-        File file = createDummyFile(length);
-        corruptDataAtOffsets(file, corruptedOffsets);
-        return ChecksumFile.createChecksumFile(file, PART_LENGTH, ALGORITHM);
+    public ChecksumFile createChecksumFile(long length, long... corruptedOffsets) throws IOException {
+        return createChecksumFile(length, PART_LENGTH, ALGORITHM, corruptedOffsets);
     }
 
-    public File createDummyFile(int length) throws IOException {
+    public ChecksumFile createChecksumFile(long length, long partLength, String algorithm, long... corruptedOffsets) throws IOException {
+        File file = createDummyFile(length);
+        corruptDataAtOffsets(file, corruptedOffsets);
+        return ChecksumFile.createChecksumFile(file, partLength, algorithm);
+    }
+
+    public File createDummyFile(long length) throws IOException {
         File file = uniqueFile();
         writeDummyData(file, length);
         return file;
@@ -50,17 +54,17 @@ public class TestDataUtil {
         return file;
     }
 
-    private static void writeDummyData(File file, int length) throws IOException {
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-        for (int i = 0; i < length; i++) {
-            out.write(i);
+    private static void writeDummyData(File file, long length) throws IOException {
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(file), FileCombination.BUFFER_LENGTH);
+        for (long pos = 0; pos < length; pos++) {
+            out.write((byte) pos);
         }
         out.close();
     }
 
-    private static void corruptDataAtOffsets(File file, int... corruptionOffsets) throws IOException {
+    private static void corruptDataAtOffsets(File file, long... corruptionOffsets) throws IOException {
         RandomAccessFile raf = new RandomAccessFile(file, "rw");
-        for (int offset : corruptionOffsets) {
+        for (long offset : corruptionOffsets) {
             raf.seek(offset);
             int b = raf.read();
             raf.seek(offset);
