@@ -26,7 +26,7 @@ Web site: http://ccorr.sourceforge.net/
 
  ### System Requirements ###
 
-- J2SE Runtime Environment 5.0 or later from http://java.sun.com/
+- Java 6 JRE or later from http://java.sun.com/
 - Enough free hard drive space for the output files
 
 

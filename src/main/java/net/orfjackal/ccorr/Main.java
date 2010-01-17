@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2003-2006  Esko Luontola, www.orfjackal.net
  *
  * This file is part of Corruption Corrector (CCorr).
@@ -18,7 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-import net.orfjackal.ccorr.Log;
+package net.orfjackal.ccorr;
+
 import net.orfjackal.ccorr.gui.MainWindow;
 
 /**
