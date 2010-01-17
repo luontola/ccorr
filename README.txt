@@ -52,7 +52,7 @@ Delete the .ccorr.cfg file in your user home directory (e.g.
 
  ### License ###
 
-Copyright (C) 2003-2006  Esko Luontola, www.orfjackal.net
+Copyright (C) 2003-2010  Esko Luontola, www.orfjackal.net
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
