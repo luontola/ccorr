@@ -34,4 +34,12 @@ public class CrcTest extends Assert {
         sha1.update(DATA, 0, DATA.length);
         assertEquals("494179714a6cd627239dfededf2de9ef994caf03", sha1.getHexValue());
     }
+
+    @Test
+    public void when_data_contains_entirely_the_same_byte_then_the_byte_is_shown_in_hex() {
+        CRC sha1 = new CRC("CRC-32");
+        byte[] SPACES = {' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        sha1.update(SPACES, 0, SPACES.length);
+        assertEquals("0x20", sha1.getHexValue());
+    }
 }

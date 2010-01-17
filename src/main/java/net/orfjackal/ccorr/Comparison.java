@@ -906,6 +906,7 @@ public class Comparison implements Serializable {
         Comparison result;
         try {
             result = (Comparison) (ObjectSaver.loadFromFile(file));
+            result.savedAsFile = file;
         } catch (Exception e) {
             e.printStackTrace();
             result = null;
