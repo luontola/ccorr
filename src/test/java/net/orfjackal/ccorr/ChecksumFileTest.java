@@ -91,7 +91,7 @@ public class ChecksumFileTest extends Assert {
         verify(monitor).setNote("Completed 50%");
         verify(monitor).setProgress(75);
         verify(monitor).setNote("Completed 75%");
-        verify(monitor).setProgress(100);
+        verify(monitor, atLeastOnce()).setProgress(100);
     }
 
     @Test
