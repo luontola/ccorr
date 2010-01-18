@@ -190,6 +190,7 @@ public class ComparisonTest extends Assert {
 
     @Test
     public void when_some_files_are_shorter_but_end_at_even_offsets_then_they_are_not_necessarily_different() throws IOException {
+        // TODO: maybe this behaviour should be changed, so that the length of a file is always explicitly shown to the user and selection is possible
         Comparison c = new Comparison();
         c.addFile(util.createChecksumFile(PART_LENGTH * 3));
         c.addFile(util.createChecksumFile(PART_LENGTH * 4));

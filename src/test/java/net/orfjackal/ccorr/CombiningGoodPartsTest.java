@@ -59,6 +59,7 @@ public class CombiningGoodPartsTest extends Assert {
 
     @Test
     public void when_there_is_only_one_file_then_a_good_combination_cannot_be_created() throws IOException {
+        // TODO: maybe this behaviour should be changed, so that it's possible to create a good combination
         Comparison c = new Comparison();
         c.addFile(util.createChecksumFile(PART_LENGTH * 2));
         c.doCompare();

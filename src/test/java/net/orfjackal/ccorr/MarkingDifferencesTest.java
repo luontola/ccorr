@@ -173,4 +173,10 @@ public class MarkingDifferencesTest extends Assert {
         assertEquals(MARK_IS_UNDEFINED, c.getMark(DIFF_0, 0));
         assertEquals(MARK_IS_UNDEFINED, c.getMark(DIFF_1, 0));
     }
+
+    // TODO: tests for the marking of multiple parts with one command (if they have previously the same mark)
+    // See for example:
+    // net.orfjackal.ccorr.gui.ComparisonTableModel.setMarks()
+    // net.orfjackal.ccorr.gui.ComparisonPanel.markSelectedGood()
+    // net.orfjackal.ccorr.gui.ComparisonPanel.markSelectedNext()
 }
