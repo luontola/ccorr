@@ -28,7 +28,7 @@
   </component>
   <component name="CopyrightManager" default="GPL 2">
     <copyright>
-      <option name="notice" value="Copyright © 2003-&amp;#36;today.year, Esko Luontola &lt;www.orfjackal.net&gt;&#10;This software is released under the GNU General Public License, version 2 or later.&#10;The license text is at http://www.gnu.org/licenses/gpl.html" />
+      <option name="notice" value="Copyright © 2003-2006, 2010#if (&amp;#36;today.year!=2010)-&amp;#36;today.year#end, Esko Luontola &lt;www.orfjackal.net&gt;&#10;This software is released under the GNU General Public License, version 2 or later.&#10;The license text is at http://www.gnu.org/licenses/gpl.html" />
       <option name="keyword" value="Copyright" />
       <option name="allowReplaceKeyword" value="" />
       <option name="myName" value="GPL 2" />
